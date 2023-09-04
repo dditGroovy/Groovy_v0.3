@@ -16,4 +16,8 @@ public class ChatRoomVO {
     private int chttRoomNmpr;
     private Date chttRoomCreatDe;
 
+    private String latestChat;
+    private Date latestInputDate;
+    private String chatRoomThumbnail;
+
 }

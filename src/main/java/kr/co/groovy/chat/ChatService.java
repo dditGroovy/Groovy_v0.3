@@ -1,7 +1,9 @@
 package kr.co.groovy.chat;
 
+import kr.co.groovy.vo.ChatRoomVO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -14,13 +16,15 @@ public class ChatService {
     }
 
     public int insertChatRoom(Map<String, Object> roomData) {
-        int result = chatMapper.insertChatRoom(roomData);
-        return result;
+        return chatMapper.insertChatRoom(roomData);
     }
 
     public int insertChatMember(String emplId) {
-        int result = chatMapper.insertChatMember(emplId);
-        return result;
+        return chatMapper.insertChatMember(emplId);
+    }
+
+    public List<ChatRoomVO> loadChatRooms(String emplId) {
+        return chatMapper.loadChatRooms(emplId);
     }
 
 }

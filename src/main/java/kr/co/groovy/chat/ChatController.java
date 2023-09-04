@@ -1,9 +1,11 @@
 package kr.co.groovy.chat;
 
 import kr.co.groovy.employee.EmployeeService;
+import kr.co.groovy.vo.ChatRoomVO;
 import kr.co.groovy.vo.EmployeeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -25,10 +27,20 @@ public class ChatController {
         this.employeeService = employeeService;
     }
 
+    @GetMapping("")
+    public String chat(Model model, Principal principal) {
+        String emplId = principal.getName();
+        List<EmployeeVO> empList = employeeService.loadEmpList();
+        List<ChatRoomVO> chatRoomList = chatService.loadChatRooms(emplId);
+        model.addAttribute("empList", empList);
+        model.addAttribute("chatRoomList", chatRoomList);
+        log.info("{}", chatRoomList);
+        return "chat/chat";
+    }
+
     @PostMapping("/createRoom")
     @ResponseBody
-    public void createRoom(@RequestBody List<EmployeeVO> roomMemList,
-                           Principal principal) {
+    public void createRoom(@RequestBody List<EmployeeVO> roomMemList, Principal principal) {
 
         String hostEmplId = principal.getName();
         EmployeeVO hostEmpl = employeeService.loadEmp(hostEmplId);
