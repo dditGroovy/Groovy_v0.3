@@ -11,6 +11,18 @@
         table, td, tr, th {
             border: 1px solid #333;
         }
+        #progress-container {
+            width: 100%;
+            background-color: #DDDDDD;
+        }
+
+        #progress-bar {
+            width: 0;
+            height: 30px;
+            line-height: 30px;
+            background-color: #5796F3;
+            text-align: center;
+        }
     </style>
     <h1>${CustomUser.employeeVO.emplId}</h1>
     <h1>${commuteVO}</h1>
@@ -29,8 +41,8 @@
         <p id="weeklyTotal">00시간 00분</p>
     </div>
 
-    <div class="bar">
-
+    <div id="progress-container">
+        <div id="progress-bar"></div>
     </div>
 
     <div>
@@ -76,6 +88,7 @@
         let weeklyAttendTime = document.querySelector("#weeklyAttendTime");
         let weeklyLeaveTime = document.querySelector("#weeklyLeaveTime");
         let workMonthByYear = document.querySelector(".workMonthByYear");
+        let weeklyTime = null;
         let selectedYear = null;
         let currentDate = new Date();
         let monthDiv = document.querySelector("#monthDiv");
@@ -126,8 +139,6 @@
             });
         });
 
-
-
         function refreshCommute() {
             $.ajax({
                 type: 'get',
@@ -138,11 +149,13 @@
                         goBtn.setAttribute("disabled", "true");
                         attendDate = parseDate(rslt.dclzAttendTm);
                         leaveDate = parseDate(rslt.dclzLvffcTm);
+                        dailTime = changeMinuteToTime(rslt.dclzDailWorkTime);
+                        console.log(rslt.dclzDailWorkTime)
                         let attendTime = formatTime(attendDate);
                         let leaveTime = formatTime(leaveDate);
                         attend.innerText = attendTime;
                         leave.innerHTML = leaveTime;
-                        updateWorkTime();
+                        todayTime.innerText = dailTime;
                         if (rslt.dclzLvffcTm == "2000-01-01 00:00:00.0") { //출근만 찍혀 있을 때
                             setInterval(updateWorkTime, 10000); //실시간 업데이트
                         } else { //출퇴근 다 찍혀있을 때
@@ -194,9 +207,11 @@
                 url:`/commute/getMaxWeeklyWorkTime/\${dclzEmplId}`,
                 dataType: 'text',
                 success: function (rslt) {
-                    let weeklyTime = parseInt(rslt);
-                    weeklyTime = changeMinuteToTime(weeklyTime);
-                    weeklyTotal.innerText = weeklyTime;
+                    console.log(rslt)
+                    weeklyTime = parseInt(rslt);
+                    cWeeklyTime = changeMinuteToTime(weeklyTime);
+                    weeklyTotal.innerText = cWeeklyTime;
+                    start(weeklyTime);
                 },
                 error: function (xhr) {
                     console.log(xhr.status);
@@ -355,6 +370,27 @@
                 }
             });
         }
-
+        //--------------------------- 주간 근무시간 움직이는 bar -----------------------
+        let i = 0;
+        function start(weeklybar) { //weeklybar 주간 근무시간
+            if (i == 0) {
+                i = 1;
+                let elem = document.getElementById("progress-bar");
+                let width = 0;
+                let id = setInterval(frame, 30);
+                let wb = weeklybar / (52 * 60) * 100;
+                console.log(wb);
+                function frame() {
+                    if (width >= wb) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                        elem.innerHTML = width;
+                    }
+                }
+            }
+        }
     </script>
 </sec:authorize>

@@ -84,10 +84,10 @@
                    sysdate,
                    '2000-01-01',
                    CASE
-                       WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN 0 -- 월요일이면 주간 근무시간을 0으로 삽입
-                       ELSE (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = '202308016' AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD')) -- 월요일이 아니면 전날의 총 근무시간으로 삽입
+                       WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN 0
+                       ELSE (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'))
                        END,
-                   '무단결근'
+                   'LABOR_STTUS015'
                )
     </insert>
 
@@ -95,17 +95,31 @@
         UPDATE DCLZ
         SET
             DCLZ_LVFFC_TM = SYSDATE,
-            DCLZ_DAIL_WORK_TIME = ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60),
-            DCLZ_WIK_WORK_TIME = DCLZ_WIK_WORK_TIME + ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60),
+            DCLZ_WIK_WORK_TIME =
+                CASE
+                    WHEN ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60) >= 480
+                        THEN DCLZ_WIK_WORK_TIME + ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60) - 60
+                    ELSE DCLZ_WIK_WORK_TIME + ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60)
+                    END
+                ,
             COMMON_CODE_LABOR_STTUS =
                 CASE
-                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') <![CDATA[ < ]]>  '18:00:00' THEN '무단결근'
-                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') >= '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') <![CDATA[ <= ]]>  '09:00:59' THEN '정상출근'
-                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') > '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') >= '09:01:00' THEN '지각'
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') <![CDATA[<]]> '18:00:00'
+                        THEN 'LABOR_STTUS015'
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') >= '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') <![CDATA[<]]> '09:01:00'
+                        THEN 'LABOR_STTUS010'
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') > '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') >= '09:01:00'
+                        THEN 'LABOR_STTUS012'
                     ELSE ''
+                    END,
+            DCLZ_DAIL_WORK_TIME =
+                CASE
+                    WHEN ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60) >= 480
+                        THEN ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60) - 60
+                    ELSE ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60)
                     END
         WHERE
-            DCLZ_EMPL_ID = #{dclzEmplId}
+            DCLZ_EMPL_ID = #{dclzEMplId}
           AND TRUNC(DCLZ_ATTEND_TM) = TRUNC(SYSDATE)
     </update>
 </mapper>
