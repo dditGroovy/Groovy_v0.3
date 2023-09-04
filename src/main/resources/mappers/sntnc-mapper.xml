@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.sntnc.SntncMapper">
+    <insert id="inputPost" parameterType="sntncVO">
+        Insert Into SNTNC(SNTNC_ETPR_CODE,
+                          SNTNC_WRTING_EMPL_ID,
+                          SNTNC_CN,
+                          SNTNC_WRITNG_DATE,
+                          COMMON_CODE_SNTNC_CTGRY)
+        VALUES ('SNTNC-'||SNTNC_SEQ.nextval||'-'||TO_CHAR(sysdate,'yyyyMMdd'),
+                #{sntncWritingEmplId},
+                #{sntncCn},
+                TO_CHAR(sysdate, 'yyyyMMdd'),
+                'SNTNC010')
+    </insert>
+    <insert id="uploadPostFile"></insert>
+
+
+</mapper>

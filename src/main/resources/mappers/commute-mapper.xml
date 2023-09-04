@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.groovy.commute.CommuteMapper">
+
+    <select id="getCommute" parameterType="String" resultType="commuteVO">
+        SELECT
+            DCLZ_WORK_DE,
+            DCLZ_EMPL_ID,
+            DCLZ_ATTEND_TM,
+            DCLZ_LVFFC_TM,
+            DCLZ_DAIL_WORK_TIME,
+            DCLZ_WIK_WORK_TIME,
+            COMMON_CODE_LABOR_STTUS
+        FROM DCLZ
+        WHERE TO_CHAR(DCLZ_WORK_DE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+          AND DCLZ_EMPL_ID = #{dclzEmplId}
+    </select>
+
+    <select id="getMaxWeeklyWorkTime" parameterType="String" resultType="int">
+        SELECT COALESCE(MAX(DCLZ_WIK_WORK_TIME), 0) AS MAX_WEEKLY_WORK_TIME
+        FROM (
+                 SELECT DCLZ_EMPL_ID,
+                        DCLZ_WORK_DE,
+                        DCLZ_WIK_WORK_TIME
+                 FROM DCLZ
+                 WHERE DCLZ_WORK_DE BETWEEN TRUNC(SYSDATE, 'IW')  AND TRUNC(SYSDATE, 'IW') + 4
+                   AND DCLZ_EMPL_ID = #{dclzEmplId}
+             )
+    </select>
+
+    <select id="getWeeklyAttendTime" parameterType="String" resultType="String">
+        SELECT to_char(DCLZ_ATTEND_TM, 'HH24:MI')
+        FROM DCLZ
+        WHERE DCLZ_WORK_DE BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 4
+          AND DCLZ_EMPL_ID =  #{dclzEmplId}
+    </select>
+
+    <select id="getWeeklyLeaveTime" parameterType="String" resultType="String">
+        SELECT to_char(DCLZ_LVFFC_TM, 'HH24:MI')
+        FROM DCLZ
+        WHERE DCLZ_WORK_DE BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 4
+          AND DCLZ_EMPL_ID = #{dclzEmplId}
+    </select>
+
+    <select id="getAllYear" parameterType="String" resultType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'YYYY') AS WORK_YEAR
+        FROM DCLZ
+        where DCLZ_EMPL_ID = #{dclzEmplId}
+        ORDER BY WORK_YEAR
+    </select>
+
+    <select id="getAllMonth" parameterType="String" resultType="String">
+        SELECT DISTINCT TO_CHAR(DCLZ_WORK_DE, 'MM') AS WORK_MONTH
+        FROM DCLZ
+        where TO_CHAR(DCLZ_WORK_DE, 'YYYY') = #{year} and DCLZ_EMPL_ID = #{dclzEmplId}
+        ORDER BY WORK_MONTH
+    </select>
+
+    <select id="getCommuteByYearMonth" parameterType="String" resultType="commuteVO">
+        SELECT
+            DCLZ_WORK_DE,
+            DCLZ_DAIL_WORK_TIME,
+            COMMON_CODE_LABOR_STTUS
+        FROM
+            DCLZ
+        WHERE
+            TO_CHAR(DCLZ_WORK_DE, 'YYYY') = #{year}
+          AND TO_CHAR(DCLZ_WORK_DE, 'MM') = #{month}
+          AND DCLZ_EMPL_ID = #{dclzEmplId}
+    </select>
+
+    <insert id="insertAttend" parameterType="String">
+        INSERT INTO DCLZ (
+            DCLZ_WORK_DE,
+            DCLZ_EMPL_ID,
+            DCLZ_ATTEND_TM,
+            DCLZ_LVFFC_TM,
+            DCLZ_WIK_WORK_TIME,
+            COMMON_CODE_LABOR_STTUS
+        )
+        VALUES (
+                   TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+                   #{dclzEmplId},
+                   sysdate,
+                   '2000-01-01',
+                   CASE
+                       WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN 0 -- 월요일이면 주간 근무시간을 0으로 삽입
+                       ELSE (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = '202308016' AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD')) -- 월요일이 아니면 전날의 총 근무시간으로 삽입
+                       END,
+                   '무단결근'
+               )
+    </insert>
+
+    <update id="updateCommute" parameterType="String">
+        UPDATE DCLZ
+        SET
+            DCLZ_LVFFC_TM = SYSDATE,
+            DCLZ_DAIL_WORK_TIME = ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60),
+            DCLZ_WIK_WORK_TIME = DCLZ_WIK_WORK_TIME + ROUND((SYSDATE - DCLZ_ATTEND_TM) * 24 * 60),
+            COMMON_CODE_LABOR_STTUS =
+                CASE
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') <![CDATA[ < ]]>  '18:00:00' THEN '무단결근'
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') >= '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') <![CDATA[ <= ]]>  '09:00:59' THEN '정상출근'
+                    WHEN TO_CHAR(SYSDATE, 'HH24:MI:SS') > '18:00:00' AND TO_CHAR(DCLZ_ATTEND_TM, 'HH24:MI:SS') >= '09:01:00' THEN '지각'
+                    ELSE ''
+                    END
+        WHERE
+            DCLZ_EMPL_ID = #{dclzEmplId}
+          AND TRUNC(DCLZ_ATTEND_TM) = TRUNC(SYSDATE)
+    </update>
+</mapper>

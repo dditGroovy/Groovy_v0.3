@@ -1,28 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script defer src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 <h1 class="tab">공지 등록</h1>
 <button id="insertNoti">공지 등록</button>
-<div id="modal" style="display: none;">
-    <form action="${pageContext.request.contextPath}/admin/inputNotice" method="post" enctype="multipart/form-data">
-        <label for="noti-title">공지 제목</label>
-        <input type="text" name="notiTitle" id="noti-title" required><br/>
-        <label for="noti-content">공지 내용</label>
-        <textarea cols="50" rows="10" name="notiContent" id="noti-content" required></textarea><br>
-        <label for="noti-category">카테고리</label>
-        <select name="notiCtgryIconFileStreNm" id="noti-category">
-            <option value="important.png">중요</option>
-            <option value="notice.png">공지</option>
-            <option value="event.png">행사</option>
-            <option value="obituary.png">부고</option>
-        </select>
-        <br>
-            <label for="noti-file">파일 첨부</label>
-        <input type="file" name="notiFiles" id="noti-file" multiple><br/>
-        <button type="submit" id="submitBtn">등록</button>
-    </form>
+<div class="cardWrap">
+    <div class="card">
+        <input type="text" oninput="onQuickFilterChanged()" id="quickFilter" placeholder="검색어를 입력하세요"/>
+        <div id="myGrid" class="ag-theme-alpine"></div>
+    </div>
 </div>
-
-<table border="1">
+<%--<table border="1">
     <tr>
         <th>번호</th>
         <th>카테고리</th>
@@ -35,18 +23,86 @@
             <td>${noticeVO.notiTitle}</td>
         </tr>
     </c:forEach>
-</table>
+</table>--%>
 
 <script>
+    const returnString = (params) => params.value;
+    class ClassLink {
+        init(params){
+            this.eGui = document.createElement('a');
+            /* 매핑한거 넣으쇼*/
+            this.eGui.setAttribute('href',`/admin/manageNotice/\${params.data.count}}`);
+            this.eGui.innerText = params.value;
+        }
+        getGui() {
+            return this.eGui;
+        }
+        destroy() {}
+    }
+    class ClassBtn {
+        init(params){
+            this.eGui = document.createElement('div');
+            this.eGui.innerHTML = `
+                    <button class="modifyNotice" data-id='${params.value}'>수정</button>
+                    <button class="deleteNotice" data-id='${params.value}'>삭제</button>
+                `;
+            this.id = params.data.count;
+            this.modifyBtn= this.eGui.querySelector(".modifyNotice");
+            this.deleteBtn= this.eGui.querySelector(".deleteNotice");
+            /*ajax나 뭐 알아서 추가 하기~*/
+            this.modifyBtn.onclick = () => {alert(this.id + "수정하기")};
+            this.deleteBtn.onclick = () => {alert(this.id + "삭제하기")};
+        }
+        getGui() {
+            return this.eGui;
+        }
+        destroy() {}
+    }
+    /* 검색 */
+    const getString = function (param) {
+        const str = "${param}";
+        return str;
+    };
+    const StringRenderer = function (params) {
+        return getString(params.value);
+    };
+    function onQuickFilterChanged() {
+        gridOptions.api.setQuickFilter(document.getElementById('quickFilter').value);
+    }
+    let rowData = [];
+    const columnDefs = [
+        { field: "count",  headerName:"번호", cellRenderer: returnString},
+        { field: "notiCtgryIconFileStreNm",  headerName:"카테고리"},
+        { field: "notiTitle", headerName:"제목", cellRenderer : ClassLink, getQuickFilterText: (params) => {return params.data.notiTitle}},
+        { field: "chk", headerName:" ", cellRenderer : ClassBtn},
+    ];
+    <c:forEach var="noticeVO" items="${notiList}" varStatus="status"> <!-- 12: 공지사항 개수(length) -->
+        rowData.push({
+            count: "${status.count}",
+            notiCtgryIconFileStreNm : "${noticeVO.notiCtgryIconFileStreNm}",
+            notiTitle : "${noticeVO.notiTitle}"
+        })
+    </c:forEach>
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+    };
+
+    /*module.exports = returnCarButtonRenderer;*/
+    document.addEventListener('DOMContentLoaded', () => {
+        const gridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(gridDiv, gridOptions);
+
+    });
     const insertNotiBtn = document.querySelector("#insertNoti");
     const submitBtn = document.querySelector("#submitBtn");
-    const modal = document.querySelector("#modal");
+    /*const modal = document.querySelector("#modal");*/
     insertNotiBtn.addEventListener("click",() => {
-        modal.style.display = "block";
+        location.href= "#";  /*여기에 매핑 주소 추가*/
     })
-    submitBtn.addEventListener("click",() => {
+    /*submitBtn.addEventListener("click",() => {
         modal.style.display = "none";
-    })
+    })*/
 </script>
 <%--노출 : NOTI020--%>
 <%--비노출 : NOTI021--%>
