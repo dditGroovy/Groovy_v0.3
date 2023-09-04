@@ -1,72 +1,52 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>팀 커뮤니티</h1>
 <h4>인사팀만을 위한 공간입니다.</h4>
 
 <h2>포스트 등록</h2>
-<form name="insertPost" id="insertPost" enctype="application/x-www-form-urlencoded">
+<form action="${pageContext.request.contextPath}/employee/inputPost" method="post" enctype="multipart/form-data">
     <table border="1">
-        <tr>
-            <th>글 전사적 코드</th>
-            <td><input type="text" name="sntncEtprCode" id="sntncEtprCode"></td>
-        </tr>
-        <tr>
-            <th>글 작성 사원 아이디</th>
-            <td><input type="text" name="sntncwrtingEmplId" id="sntncwrtingEmplId"></td>
-        </tr>
-        <tr>
-            <th>글 제목</th>
-            <td><input type="text" name="sntncSj" id="sntncSj"></td>
-        </tr>
         <tr>
             <th>글 내용</th>
             <td><textarea name="sntncCn" id="sntncCn" cols="50" rows="10"></textarea></td>
         </tr>
         <tr>
-            <th>글 작성날짜</th>
-            <td><input type="text" name="sntncWritingDate" id="sntncWritingDate"></td>
-        </tr>
-        <tr>
             <th>글 파일첨부</th>
             <td> <input type="file" name="postFile" id="postFile"><br /></td>
         </tr>
-        <tr>
-            <th>글 종류 구분</th>
-            <td> <input type="text" name="commonCodeSntncCtgry" id="commonCodeSntncCtgry" value="SNTNC011"><br /></td>
-        </tr>
     </table>
-
-    <button type="button" id="insertPostBtn">등록</button>
+    <button id="insertPostBtn">등록</button>
 </form>
 <hr /><br />
 <h2>포스트 불러오기</h2>
 <form>
-    <table border="1" style="width: 80%;">
+    <table border="1" style="width: 90%;">
         <tr>
-            <td>글번호</td>
+            <th>글번호</th>
+            <th>사원 이름</th>
+            <th>등록일</th>
+            <th>포스트 내용</th>
+            <th>좋아요</th>
+            <th>수정/삭제</th>
+        </tr>
+        <!--<tr>
             <td><input type="text" name="getSntncEtprCode" id="getSntncEtprCode" value="1"></td>
-        </tr>
-        <tr>
-            <td>사원 이름</td>
             <td><input type="text" name="getSntncWritingEmplId" id="getWritingEmplId" value="강서주"></td>
-        </tr>
-        <tr>
-            <td>등록일</td>
             <td><input type="text" name="getSntncWritingDate" id="getWritingDate" value="2023/08/08 21:42:00"></td>
-        </tr>
-        <tr>
-            <td>포스트 내용</td>
             <td><textarea name="getSntncCn" id="getSntncCn" cols="50" rows="10">Lorem ipsum dolor sit amet consectetur. In malesuada sed vitae pharetra id. Cras cong</textarea></td>
-        </tr>
-        <tr>
-            <td>좋아요</td>
             <td>0</td>
-        </tr>
-        <tr>
-            <td>댓글 수</td>
             <td>0</td>
-        </tr>
+            <td>
+                <button type="button" id="modifyBtn">수정</button>
+                <button type="button" id="deleteBtn">삭제</button>
+            </td>
+        </tr>-->
         <tr>
-            <td>수정/삭제</td>
+            <td>1</td>
+            <td>강서주</td>
+            <td>2023/08/08 21:42:00</td>
+            <td>Lorem ipsum dolor sit amet consectetur. In malesuada sed vitae pharetra id. Cras cong</td>
+            <td>1</td>
             <td>
                 <button type="button" id="modifyBtn">수정</button>
                 <button type="button" id="deleteBtn">삭제</button>
@@ -330,36 +310,6 @@
 
         console.log(num);
 
-        insertPostBtn.addEventListener("click", () => {
-            const postCont = postInput.value;
-            formData = new FormData();
-            formData.append("postCont", postCont);
-
-            selectedFile = fileInput.files[0];
-            formData.append("file", selectedFile);
-
-
-            /* $.ajax({
-                type : "post",
-                // url 적어주세요
-                url : "#",
-                data : formData,
-                processData: false,
-                contentType: false,
-                dataType : "text",
-                contentType : "application/json;charset-utf-8",
-                success : function(rslt){
-                    console.log("결과 확인 : "+ rslt);
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status)
-                    console.log("message: " + xhr.responseText)
-                    console.log("error: " + error);
-                }
-            }) */
-
-
-        })
         addVoteBtn.addEventListener("click", () => {
             document.querySelector("#modal-insert-vote").style.display = "block";
         })
