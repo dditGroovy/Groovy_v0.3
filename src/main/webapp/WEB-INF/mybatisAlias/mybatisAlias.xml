@@ -17,5 +17,6 @@
         <typeAlias type="kr.co.groovy.vo.ChatVO" alias="chatVO" />
         <typeAlias type="kr.co.groovy.vo.UploadFileVO" alias="uploadFileVO" />
         <typeAlias type="kr.co.groovy.vo.SntncVO" alias="sntncVO" />
+        <typeAlias type="kr.co.groovy.vo.CommuteVO" alias="commuteVO" />
     </typeAliases>
 </configuration>

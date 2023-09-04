@@ -1,65 +1,360 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec"
+           uri="http://www.springframework.org/security/tags" %>
 
-<div>
-    <p>출근 <span>08:54</span></p>
-</div>
-<div>
-    <p>퇴근 <span>18:00</span></p>
-</div>
-<div>
-    <p>오늘 근무 시간</p>
-    <p>05시간 30분</p>
-</div>
-<div>
-    <p>이번주 총 근무 시간</p>
-    <p>34시간 30분</p>
-</div>
+<sec:authorize access="isAuthenticated()">  <!-- 없어도 됨 -->
+    <sec:authentication property="principal" var="CustomUser" />
 
-<div class="bar">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        table, td, tr, th {
+            border: 1px solid #333;
+        }
+    </style>
+    <h1>${CustomUser.employeeVO.emplId}</h1>
+    <h1>${commuteVO}</h1>
+    <div>
+        <button type="button" id="goBtn">출근 <span id="attend">00:00</span></button>
+    </div>
+    <div>
+        <button type="button" id="leaveBtn">퇴근 <span id="leave">00:00</span></button>
+    </div>
+    <div>
+        <p>오늘 근무 시간</p>
+        <p id="todayTime">00시간 00분</p>
+    </div>
+    <div>
+        <p>이번주 총 근무 시간</p>
+        <p id="weeklyTotal">00시간 00분</p>
+    </div>
 
-</div>
+    <div class="bar">
 
-<div>
-    <p>주간 출 • 퇴근 시간 확인</p>
-    <table border="1">
-        <tr>
-            <th>월</th>
-            <th>화</th>
-            <th>수</th>
-            <th>목</th>
-            <th>금</th>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-    </table>
-</div>
+    </div>
 
-<div>
-    <p>근태 현황</p>
-    <select name="sortOptions" id="" class="stroke">
-        <option value="2023">2023</option>
-    </select>
-    <c:forEach var="eachMonth" begin="1" end="12">
-        <input type="button" class="month" value="<c:out value="${eachMonth}" />">
-    </c:forEach>
-</div>
+    <div>
+        <p>주간 출 • 퇴근 시간 확인</p>
+        <table border="1">
+            <tr>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+            </tr>
+            <tr id="weeklyAttendTime"></tr>
+            <tr id="weeklyLeaveTime"></tr>
+        </table>
+    </div>
 
-<div class="modal">
     <div>
         <p>근태 현황</p>
-        <i></i>
+        <select name="sortOptions" id="yearSelect" class="stroke"></select>
+        <div id="monthDiv"></div>
     </div>
-    <table>
-        <tr>
-            <th>날짜</th>
-            <th>상태</th>
-            <th>근무시간</th>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-    </table>
-    <button type="button" value="확인"></button>
-</div>
+
+    <div class="modal">
+        <div>
+            <p>근태 현황</p>
+            <i></i>
+        </div>
+
+        <div id="commuteTable"></div>
+        <button type="button">확인</button>
+    </div>
+
+
+    <script>
+        let dclzEmplId = `${CustomUser.employeeVO.emplId}`;
+        let goBtn = document.querySelector("#goBtn");
+        let leaveBtn = document.querySelector("#leaveBtn");
+        let attend = document.querySelector("#attend");
+        let leave = document.querySelector("#leave");
+        let todayTime = document.querySelector("#todayTime");
+        let weeklyTotal = document.querySelector("#weeklyTotal");
+        let weeklyAttendTime = document.querySelector("#weeklyAttendTime");
+        let weeklyLeaveTime = document.querySelector("#weeklyLeaveTime");
+        let workMonthByYear = document.querySelector(".workMonthByYear");
+        let selectedYear = null;
+        let currentDate = new Date();
+        let monthDiv = document.querySelector("#monthDiv");
+        let attendDate = "";
+        let leaveDate = "";
+
+        refreshCommute(); //출퇴근 기록 가져오기
+        getMaxWeeklyWorkTime(); //주간 근무 시간
+        getWeeklyAttendTime(); //주간 출근 시간
+        getWeeklyLeaveTime(); //주간 퇴근 시간
+        getAllYear(); //근무 해당 연도 가져오기
+
+        yearSelect.addEventListener("change", function () {
+            selectedYear = yearSelect.options[yearSelect.selectedIndex].value;
+            getAllMonth();
+        });
+
+        //출근버튼 눌렀을 때
+        goBtn.addEventListener("click", function () {
+            $.ajax({
+                type: 'post',
+                url: `/commute/insertAttend/\${dclzEmplId}`,
+                dataType: 'text',
+                success: function (rslt) {
+                    refreshCommute();
+                    getWeeklyAttendTime();
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                }
+            });
+        });
+
+        //퇴근버튼 눌렀을 때
+        leaveBtn.addEventListener("click", function () {
+            $.ajax({
+                type:'put',
+                url: `/commute/updateCommute/\${dclzEmplId}`,
+                dataType: 'text',
+                success: function (rslt) {
+                    refreshCommute();
+                    getMaxWeeklyWorkTime();
+                    getWeeklyLeaveTime();
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                }
+            });
+        });
+
+
+
+        function refreshCommute() {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getCommute/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (rslt) {
+                    if (rslt.dclzAttendTm != null) {
+                        goBtn.setAttribute("disabled", "true");
+                        attendDate = parseDate(rslt.dclzAttendTm);
+                        leaveDate = parseDate(rslt.dclzLvffcTm);
+                        let attendTime = formatTime(attendDate);
+                        let leaveTime = formatTime(leaveDate);
+                        attend.innerText = attendTime;
+                        leave.innerHTML = leaveTime;
+                        updateWorkTime();
+                        if (rslt.dclzLvffcTm == "2000-01-01 00:00:00.0") { //출근만 찍혀 있을 때
+                            setInterval(updateWorkTime, 10000); //실시간 업데이트
+                        } else { //출퇴근 다 찍혀있을 때
+                            leaveBtn.setAttribute("disabled", "true");
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    console.log("CODE: ", xhr.status);
+                }
+            });
+        }
+
+        // 출근 시간을 Date 객체로 변환하는 함수
+        function parseDate(dateString) {
+            const [year, month, day, hours, minutes] = dateString.split(/[- :]/);
+            return new Date(year, month - 1, day, hours, minutes);
+        }
+
+        function formatTime(time) {
+            if (time) {
+                let formattedTime = `\${time.getHours()}:\${(time.getMinutes() < 10 ? '0' : '')}\${time.getMinutes()}`;
+                return formattedTime;
+            } else {
+                return "00:00";
+            }
+        }
+
+        function updateWorkTime(timeDifference) {
+            if (attendDate) {
+                currentDate = new Date(); // 현재 시간 업데이트
+                const timeDifference = currentDate - attendDate;
+                const workHours = Math.floor(timeDifference / (1000 * 60 * 60));
+                const workMinutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const todayT = `\${workHours}시간 \${workMinutes}분`;
+                todayTime.innerText = todayT;
+            }
+        }
+
+        function changeMinuteToTime(minutes) { //분 -> HH:MI
+            let hours = Math.floor(minutes / 60);
+            let remainMinutes = minutes % 60;
+            return `\${hours}시간 \${remainMinutes < 10 ? '0' : ''}\${remainMinutes}분`;
+        }
+
+        function getMaxWeeklyWorkTime() {
+            $.ajax({
+                type: 'get',
+                url:`/commute/getMaxWeeklyWorkTime/\${dclzEmplId}`,
+                dataType: 'text',
+                success: function (rslt) {
+                    let weeklyTime = parseInt(rslt);
+                    weeklyTime = changeMinuteToTime(weeklyTime);
+                    weeklyTotal.innerText = weeklyTime;
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                }
+            });
+        }
+
+        function getWeeklyAttendTime() {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getWeeklyAttendTime/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (rslt) {
+                    let code = ``;
+                    for (let i = 0; i < 5; i++) {
+                        if (rslt[i] == undefined || rslt[i] == "00:00") {
+                            code += `<td>-</td>`
+                        } else {
+                            code += `<td>\${rslt[i]}</td>`;
+                        }
+                    }
+                    weeklyAttendTime.innerHTML = code;
+                },
+                error(xhr) {
+                    xhr.status;
+                }
+            });
+        };
+
+        function getWeeklyLeaveTime() {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getWeeklyLeaveTime/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (rslt) {
+                    let code = ``;
+                    for (let i = 0; i < 5; i++) {
+                        if (rslt[i] == undefined || rslt[i] == "00:00") {
+                            code += `<td>-</td>`
+                        } else {
+                            code += `<td>\${rslt[i]}</td>`;
+                        }
+                    }
+                    weeklyLeaveTime.innerHTML = code;
+                },
+                error(xhr) {
+                    xhr.status;
+                }
+            });
+        };
+
+        function getAllYear () {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getAllYear/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (rslt) {
+                    let code = ``;
+                    for (let i = 0; i < rslt.length; i++) {
+                        code += `<option value="\${rslt[i]}">\${rslt[i]}</option>`;
+                    }
+                    yearSelect.innerHTML = code;
+                    selectedYear = rslt[0];
+                    getAllMonth();
+                },
+                error: function (xhr) {
+                    xhr.status;
+                }
+            });
+        }
+
+        function getAllMonth () {
+            data = {
+                "year" : selectedYear,
+                "dclzEmplId": dclzEmplId
+            }
+
+            $.ajax({
+                type: 'get',
+                url: '/commute/getAllMonth',
+                data: data,
+                dataType: 'json',
+                success: function (rslt) {
+                    let code = ``;
+                    for (let i = 1; i <= 12; i++) {
+                        if (rslt.includes(i < 10 ? `0\${i}` : `\${i}`)) {
+                            code += `<button type="button" onclick="getCommuteByYearMonth(this)" >\${i}월</button>`;
+                        } else {
+                            code += `<button type="button" disabled>\${i}월</button>`;
+                        }
+                    }
+                    monthDiv.innerHTML = code;
+                },
+                error: function (xhr) {
+                    xhr.status;
+                }
+            });
+        }
+
+        function getCommuteByYearMonth(monthBtn) {
+            //년도 - 월 버튼 선택시
+            let month = parseInt(monthBtn.innerText);
+            month = month < 10 ? `0\${month}` : month;
+            data = {
+                "dclzEmplId": dclzEmplId,
+                "year": selectedYear,
+                "month": month
+            }
+            $.ajax({
+                type: 'get',
+                url: '/commute/getCommuteByYearMonth',
+                data: data,
+                contentType: 'json',
+                dataType: 'json',
+                success: function (rslt) {
+                    formatTime()
+                    let commuteTable = document.querySelector("#commuteTable");
+                    code = `<table border="1">
+                                <tr>
+                                    <th>날짜</th>
+                                    <th>상태</th>
+                                    <th>근무시간</th>
+                                </tr>`;
+
+                    for (let i = 0; i < rslt.length; i++) {
+                        let beforeDate = new Date(rslt[i].dclzWorkDe);
+                        let year = beforeDate.getFullYear();
+                        let month = beforeDate.getMonth() + 1;
+                        month = month<10?month=`0\${month}`: month;
+                        let date = beforeDate.getDate();
+                        date = date<10?date=`0\${date}`: date;
+                        let afterDate = `\${year}-\${month}-\${date}`;
+
+                        let time = changeMinuteToTime(rslt[i].dclzDailWorkTime);
+
+                        let status = rslt[i].commonCodeLaborSttus;
+                        if (status == "LABOR_STTUS010") {
+                            status = "정상출근";
+                        } else if(status == "LABOR_STTUS012") {
+                            status = "지각";
+                        } else if(status == "LABOR_STTUS015") {
+                            status = "무단결근";
+                        }
+
+                        code += `<tr>
+                                        <td>\${afterDate}</td>
+                                        <td>\${status}</td>
+                                        <td>\${time}</td>
+                                </tr>`;
+                    }
+                    code += `</table>`;
+                    commuteTable.innerHTML = code;
+                },
+                error: function (xhr) {
+                    xhr.status;
+                }
+            });
+        }
+
+    </script>
+</sec:authorize>
