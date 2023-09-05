@@ -16,7 +16,7 @@ public interface CommuteMapper {
 
     int updateCommute(String dclzEmplId);
 
-    CommuteVO getTest(String dclzEmplId);
+    CommuteVO getAttend(String dclzEmplId);
 
     List<String> getWeeklyAttendTime(String dclzEmplId);
 

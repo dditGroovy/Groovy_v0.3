@@ -82,8 +82,8 @@ public class CommuteController {
         return commuteService.getCommuteByYearMonth(map);
     }
 
-    @GetMapping("/getTest/{dclzEmplId}")
-    public CommuteVO getTest(@PathVariable String dclzEmplId) {
-        return commuteService.getTest(dclzEmplId);
+    @GetMapping("/getAttend/{dclzEmplId}")
+    public CommuteVO getAttend(@PathVariable String dclzEmplId) {
+        return commuteService.getAttend(dclzEmplId);
     }
 }

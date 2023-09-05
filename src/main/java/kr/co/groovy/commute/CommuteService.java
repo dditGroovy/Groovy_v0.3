@@ -50,7 +50,7 @@ public class CommuteService {
         return commuteMapper.getCommuteByYearMonth(map);
     }
 
-    public CommuteVO getTest(String dclzEmplId) {
-        return commuteMapper.getTest(dclzEmplId);
+    public CommuteVO getAttend(String dclzEmplId) {
+        return commuteMapper.getAttend(dclzEmplId);
     };
 }

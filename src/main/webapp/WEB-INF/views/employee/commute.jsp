@@ -110,12 +110,26 @@
         //출근버튼 눌렀을 때
         goBtn.addEventListener("click", function () {
             $.ajax({
-                type: 'post',
-                url: `/commute/insertAttend/\${dclzEmplId}`,
-                dataType: 'text',
-                success: function (rslt) {
-                    refreshCommute();
-                    getWeeklyAttendTime();
+                type: 'get',
+                url: `/commute/getAttend/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (commuteVO) {
+                    console.log(commuteVO);
+                    $.ajax({
+                        type: 'post',
+                        url: `/commute/insertAttend`,
+                        data: commuteVO,
+                        dataType: 'text',
+                        success: function(rslt) {
+                            console.log(rslt);
+                            refreshCommute();
+                            getWeeklyAttendTime();
+                        },
+                        error: function (xhr) {
+                            console.log(rslt);
+                        }
+                    });
+
                 },
                 error: function (xhr) {
                     console.log(xhr.status);
@@ -394,9 +408,6 @@
             }
         }
 
-        ////////////////////// select
-        let testCode = [];
-        getTest();
 
         function getTest() {
             $.ajax({
@@ -412,6 +423,8 @@
                         dataType: 'text',
                         success: function(rslt) {
                             console.log(rslt);
+                            refreshCommute();
+                            getWeeklyAttendTime();
                         },
                         error: function (xhr) {
                             console.log(rslt);
