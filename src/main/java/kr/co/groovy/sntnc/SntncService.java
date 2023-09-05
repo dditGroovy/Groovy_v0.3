@@ -36,8 +36,9 @@ public class SntncService {
 
         String sntncEtprCode = "SNTNC-" + postSeq + "-" + nowDate;
         vo.setSntncEtprCode(sntncEtprCode);
+        log.info(vo.getSntncCn(), vo.getSntncWritingEmplId(), vo.getSntncEtprCode());
         mapper.inputPost(vo);
-        try {
+
             String path = uploadPath + "/teamCommunity";
             log.debug("path: " + path);
             File uploadDir = new File(path);
@@ -62,10 +63,10 @@ public class SntncService {
             map.put("originalFileName", originalFileName);
             map.put("newFileName", newFileName);
             map.put("fileSize", fileSize);
+            log.info(String.valueOf(map));
+
             mapper.uploadPostFile(map);
 
-        }catch (Exception e){
-            log.info("--파일 등록 실패--");
-        }
+
     }
 }

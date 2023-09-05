@@ -26,7 +26,7 @@
                                 UPLOAD_FILE_SIZE,
                                 UPLOAD_FILE_RGSDE)
         VALUES (UPLOAD_FILE_SEQ.nextval,
-                #{notiEtprCode},
+                #{sntncEtprCode},
                 #{originalFileName},
                 #{newFileName},
                 #{fileSize},

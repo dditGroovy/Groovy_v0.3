@@ -26,6 +26,7 @@ public class SntncController {
         String sntncWritingEmplId = principal.getName();
         SntncVO vo = new SntncVO();
         vo.setSntncWritingEmplId(sntncWritingEmplId);
+        vo.setSntncCn(sntncCn);
         service.inputPost(vo, postFile);
         return "redirect:/employee/teamCommunity";
     }
