@@ -41,5 +41,5 @@ public class EmployeeVO {
 //    private String electronSanctionReception;
 //    private String electronSanction;
     private List<EmployeeAuthVO> employeeAuthVOList;
-//    private NotificationVO notificationVO;
+    private NotificationVO notificationVO;
 }

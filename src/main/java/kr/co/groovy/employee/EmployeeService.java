@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -155,13 +157,25 @@ public class EmployeeService {
         }
     }
 
-    public NotificationVO loadNotiStatus(String emplId) {
-        return mapper.loadNotiStatus(emplId);
+    public NotificationVO getNoticeAt(String emplId) {
+        return mapper.getNoticeAt(emplId);
     }
 
     public void modifyEmp(EmployeeVO vo){
         vo.setEmplPassword(encoder.encode(vo.getEmplPassword()));
         mapper.modifyEmp(vo);
+    }
+    public void modifyNoticeAt(NotificationVO vo, String emplId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("notificationVO", vo);
+        map.put("emplId", emplId);
+
+        // 로그인한 유저의 알림 상태 값 변경
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        EmployeeVO employeeVO = customUser.getEmployeeVO();
+        employeeVO.setNotificationVO(vo);
+        mapper.modifyNoticeAt(map);
     }
 }
 

@@ -1,6 +1,7 @@
 package kr.co.groovy.employee;
 
 import kr.co.groovy.vo.EmployeeVO;
+import kr.co.groovy.vo.NotificationVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -139,8 +140,14 @@ public class EmployeeController {
 
     @PostMapping("/modifyEmp")
     @ResponseBody
-    public void modifyEmp(EmployeeVO vo){
+    public void modifyEmp(EmployeeVO vo) {
         service.modifyEmp(vo);
+    }
+
+    @PostMapping("/modifyNoticeAt/{emplId}")
+    @ResponseBody
+    public void modifyNoticeAt(@RequestBody NotificationVO notificationVO, @PathVariable("emplId") String emplId) {
+        service.modifyNoticeAt(notificationVO, emplId);
     }
 }
 

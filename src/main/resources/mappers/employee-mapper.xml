@@ -27,17 +27,57 @@
         <result property="authEmpId" column="AUTH_EMP_ID"/>
     </resultMap>
 
-    <resultMap type="notificationVO" id="notificationMap">
-        <result property="answer" column="DUTY_REQUEST"/>
-        <result property="teamNotice" column="ANSWER"/>
-        <result property="companyNotice" column="TEAM_NOTICE"/>
-        <result property="schedule" column="COMPANY_NOTICE"/>
-        <result property="newChattingRoom" column="SCHEDULE"/>
-        <result property="emailReception" column="NEW_CHATTING_ROOM"/>
-        <result property="electronSanctionReception" column="EMAIL_RECEPTION"/>
-        <result property="electronSanction" column="ELECTRON_SANCTION_RECEPTION"/>
-    </resultMap>
+    <!--    <resultMap type="notificationVO" id="notificationMap">-->
+    <!--        <result property="answer" column="DUTY_REQUEST"/>-->
+    <!--        <result property="teamNotice" column="ANSWER"/>-->
+    <!--        <result property="companyNotice" column="TEAM_NOTICE"/>-->
+    <!--        <result property="schedule" column="COMPANY_NOTICE"/>-->
+    <!--        <result property="newChattingRoom" column="SCHEDULE"/>-->
+    <!--        <result property="emailReception" column="NEW_CHATTING_ROOM"/>-->
+    <!--        <result property="electronSanctionReception" column="EMAIL_RECEPTION"/>-->
+    <!--        <result property="electronSanction" column="ELECTRON_SANCTION_RECEPTION"/>-->
+    <!--    </resultMap>-->
 
+    <select id="getNoticeAt" parameterType="String" resultType="notificationVO">
+        SELECT MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN010' THEN COMMON_CODE_NTCN_AT END) AS DUTY_REQUEST,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN011' THEN COMMON_CODE_NTCN_AT END) AS ANSWER,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN012' THEN COMMON_CODE_NTCN_AT END) AS TEAM_NOTICE,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN013' THEN COMMON_CODE_NTCN_AT END) AS COMPANY_NOTICE,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN014' THEN COMMON_CODE_NTCN_AT END) AS SCHEDULE,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN015' THEN COMMON_CODE_NTCN_AT END) AS NEW_CHATTING_ROOM,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN016' THEN COMMON_CODE_NTCN_AT END) AS EMAIL_RECEPTION,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN017' THEN COMMON_CODE_NTCN_AT END) AS ELECTRON_SANCTION_RECEPTION,
+               MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN018' THEN COMMON_CODE_NTCN_AT END) AS ELECTRON_SANCTION_RESULT
+        FROM NTCN_AT
+        WHERE NTCN_AT_EMPL_ID = #{emplId}
+    </select>
+    <update id="modifyNoticeAt" parameterType="map">
+        UPDATE NTCN_AT
+        SET COMMON_CODE_NTCN_AT =
+                CASE
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN010' THEN #{notificationVO.dutyRequest}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN011' THEN #{notificationVO.answer}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN012' THEN #{notificationVO.teamNotice}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN013' THEN #{notificationVO.companyNotice}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN014' THEN #{notificationVO.schedule}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN015' THEN #{notificationVO.newChattingRoom}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN016' THEN #{notificationVO.emailReception}
+                    WHEN COMMON_CODE_NTCN_KIND = 'NTCN017' THEN #{notificationVO.electronSanctionReception}
+                    ELSE COMMON_CODE_NTCN_AT
+                    END
+        WHERE COMMON_CODE_NTCN_KIND IN (
+                                        'NTCN010',
+                                        'NTCN011',
+                                        'NTCN012',
+                                        'NTCN013',
+                                        'NTCN014',
+                                        'NTCN015',
+                                        'NTCN016',
+                                        'NTCN017',
+                                        'NTCN018'
+            )
+          AND NTCN_AT_EMPL_ID = #{emplId}
+    </update>
     <select id="signIn" parameterType="String" resultMap="employeeDetailMap">
         SELECT A.EMPL_ID,
                A.EMPL_PASSWORD,
@@ -66,7 +106,6 @@
                  JOIN UPLOAD_FILE UF2 ON S.SIGN_ETPR_CODE = UF2.UPLOAD_FILE_ETPR_CODE
         WHERE A.EMPL_ID = #{emplId}
     </select>
-
 
 
     <update id="initPassword" parameterType="String">
@@ -252,16 +291,16 @@
     </update>
     <update id="modifyEmp" parameterType="employeeVO">
         UPDATE EMPL
-        SET EMPL_NM = #{emplNm},
-            EMPL_PASSWORD = #{emplPassword},
-            EMPL_TELNO = #{emplTelno},
-            EMPL_ZIP = #{emplZip},
-            EMPL_ADRES = #{emplAdres},
-            EMPL_DETAIL_ADRES = #{emplDetailAdres},
+        SET EMPL_NM                 = #{emplNm},
+            EMPL_PASSWORD           = #{emplPassword},
+            EMPL_TELNO              = #{emplTelno},
+            EMPL_ZIP                = #{emplZip},
+            EMPL_ADRES              = #{emplAdres},
+            EMPL_DETAIL_ADRES       = #{emplDetailAdres},
             COMMON_CODE_LAST_ACDMCR = #{commonCodeLastAcdmcr},
-            COMMON_CODE_CLSF = #{commonCodeClsf},
-            COMMON_CODE_DEPT = #{commonCodeDept},
-            COMMON_CODE_HFFC_STTUS = #{commonCodeHffcSttus}
+            COMMON_CODE_CLSF        = #{commonCodeClsf},
+            COMMON_CODE_DEPT        = #{commonCodeDept},
+            COMMON_CODE_HFFC_STTUS  = #{commonCodeHffcSttus}
         WHERE EMPL_ID = #{emplId}
     </update>
 </mapper>
