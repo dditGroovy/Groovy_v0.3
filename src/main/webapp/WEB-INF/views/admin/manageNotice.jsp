@@ -25,13 +25,17 @@
     </c:forEach>
 </table>--%>
 
+
+
+
+<%--${noticeVO.notiEtprCode}--%>
 <script>
     const returnString = (params) => params.value;
     class ClassLink {
         init(params){
             this.eGui = document.createElement('a');
             /* 매핑한거 넣으쇼*/
-            this.eGui.setAttribute('href',`/admin/manageNotice/\${params.data.count}}`);
+            this.eGui.setAttribute('href',`/admin/noticeDetail/\${params.data.count}}`);
             this.eGui.innerText = params.value;
         }
         getGui() {
@@ -98,7 +102,7 @@
     const submitBtn = document.querySelector("#submitBtn");
     /*const modal = document.querySelector("#modal");*/
     insertNotiBtn.addEventListener("click",() => {
-        location.href= "#";  /*여기에 매핑 주소 추가*/
+        location.href= "/admin/inputNotice";
     })
     /*submitBtn.addEventListener("click",() => {
         modal.style.display = "none";

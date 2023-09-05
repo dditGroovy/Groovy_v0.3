@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <style>
         .todoBoardListWrapper {display: flex; gap: 24px;}
         .list-header {display: flex; justify-content: space-between; align-items: center;}
@@ -237,15 +238,15 @@
             <ul id="requestTodo" style="display:none;">
                 <li>
                     <input type="radio" id="jobNo1">
-                    요청한 사람 : "\${}" &nbsp; 업무 제목 : '${}' &nbsp; 요청 날짜 : '${}'
+                    요청한 사람 : "\${}" &nbsp; 업무 제목 : '\${}' &nbsp; 요청 날짜 : '\${}'
                 </li>
                 <li>
                     <input type="radio" id="jobNo2">
-                    요청한 사람 : '${}' &nbsp; 업무 제목 : '${}' &nbsp; 요청 날짜 : '${}'
+                    요청한 사람 : '\${}' &nbsp; 업무 제목 : '\${}' &nbsp; 요청 날짜 : '\${}'
                 </li>
                 <li>
                     <input type="radio" id="jobNo3">
-                    요청한 사람 : '${}' &nbsp; 업무 제목 :'${}' &nbsp; 요청 날짜 :'${}'
+                    요청한 사람 : '\${}' &nbsp; 업무 제목 :'\${}' &nbsp; 요청 날짜 :'\${}'
                 </li>
             </ul>
             <form action="#">
@@ -348,5 +349,3 @@
             })
         })
     </script>
-</body>
-</html>

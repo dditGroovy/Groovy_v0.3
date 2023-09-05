@@ -15,7 +15,7 @@
                 #{notiCtgryIconFileStreNm},
                 'NOTI020')
     </insert>
-<!--    'NOTI-' || NOTI_SEQ.nextval || '-' || TO_CHAR(sysdate, 'yyyyMMdd')-->
+    <!--    'NOTI-' || NOTI_SEQ.nextval || '-' || TO_CHAR(sysdate, 'yyyyMMdd')-->
     <insert id="uploadNoticeFile" parameterType="map">
         INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
                                 UPLOAD_FILE_ETPR_CODE,
@@ -31,9 +31,20 @@
                 TO_CHAR(sysdate, 'yyyyMMdd'))
     </insert>
     <select id="getNotiSeq" resultType="int">
-        SELECT NOTI_SEQ.nextval FROM dual
+        SELECT NOTI_SEQ.nextval
+        FROM dual
     </select>
+    <update id="deleteNotice">
+        UPDATE NOTI
+        SET COMMON_CODE_NOTI_KIND = 'NOTI021'
+        WHERE NOTI_ETPR_CODE = #{notiEtprCode}
+    </update>
+    <update id="modifyNotice">
+        UPDATE NOTI
+        SET NOTI_TITLE                   = #{notiTitle},
+            NOTI_CONTENT                 = #{notiContent},
+            NOTI_DATE                    = TO_CHAR(sysdate, 'yyyyMMdd'),
+            NOTI_CTGRY_ICON_FILE_STRE_NM = #{notiCtgryIconFileStreNm}
+        WHERE NOTI_ETPR_CODE = #{notiEtprCode}
+    </update>
 </mapper>
-
-
-
