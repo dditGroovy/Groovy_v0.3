@@ -107,6 +107,11 @@
 <h3>날씨</h3>
 <div id="weather"></div>
 <img id="weatherImg" src="">
+
+<form action="/main/uploadFile" method="post" enctype="multipart/form-data">
+    <input type="file" name="defaultFile">
+    <button type="submit">저장</button>
+</form>
 <script>
     $(document).ready(function () {
         // -----------------------------------------------------------날짜 포맷팅

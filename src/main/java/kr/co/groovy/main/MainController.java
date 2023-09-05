@@ -3,10 +3,10 @@ package kr.co.groovy.main;
 import kr.co.groovy.vo.DietVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 @Slf4j
 @RequestMapping("/main")
@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
     final
     MainService service;
+    final
+    String uploadPath;
 
-    public MainController(MainService service) {
+    public MainController(MainService service, String uploadPath) {
         this.service = service;
+        this.uploadPath = uploadPath;
     }
     @ResponseBody
     @GetMapping(value = "/{today}")
@@ -27,5 +30,28 @@ public class MainController {
     @GetMapping("/home")
     public String comebackHome(){
         return "main/home";
+    }
+
+    @PostMapping("/uploadFile")
+    public void uploadFile(MultipartFile defaultFile){
+        try {
+            String path = uploadPath + "/test";
+            File uploadDir = new File(path);
+            if (!uploadDir.exists()) {
+                if (uploadDir.mkdirs()) {
+                    log.info("폴더 생성 성공");
+                } else {
+                    log.info("폴더 생성 실패");
+                }
+            }
+
+            String originalFileName = defaultFile.getOriginalFilename();
+            File saveFile = new File(path, originalFileName);
+            defaultFile.transferTo(saveFile);
+
+            log.info("사진 저장 성공");
+        } catch (Exception e) {
+            log.info("사진 저장 실패");
+        }
     }
 }

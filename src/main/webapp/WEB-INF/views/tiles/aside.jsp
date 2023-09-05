@@ -21,7 +21,7 @@
         </ul>
       </div>
       <div class="btn-wrap">
-        <a href="/signOut" class="font-11 btn-free-white color-font-md">로그아웃<i class="ic-logout icon"></i></a>
+        <a href="${pageContext.request.contextPath}/signOut" class="font-11 btn-free-white color-font-md">로그아웃<i class="ic-logout icon"></i></a>
         <button id="videoConference" class="font-11 btn-free-white"><a href="${pageContext.request.contextPath}/employee/manageEmp"><span class="btn-detail">사원관리</span></a></button>
         <button id="reservation" class="font-11 btn-free-white"><a href="${pageContext.request.contextPath}/facility/vehicle"></a><span class="btn-detail">예약</span></button>
       </div>
