@@ -49,9 +49,10 @@ public class AdminController {
     public ModelAndView loadNoticeDetail(ModelAndView mav, String notiEtprCode) {
 //        commonService.modifyNoticeView(notiEtprCode);
         NoticeVO vo = commonService.loadNoticeDetail(notiEtprCode);
-        List<UploadFileVO> list = commonService.loadNotiFiles(notiEtprCode);
+        log.info(vo + "");
+//        List<UploadFileVO> list = commonService.loadNotiFiles(notiEtprCode);
         mav.addObject("noticeDetail", vo);
-        mav.addObject("notiFiles", list);
+//        mav.addObject("notiFiles", list);
         mav.setViewName("admin/adminNoticeDetail");
         return mav;
     }
