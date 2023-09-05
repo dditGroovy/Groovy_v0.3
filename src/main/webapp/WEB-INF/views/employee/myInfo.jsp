@@ -181,7 +181,7 @@
                     console.log("프로필 사진 수정 성공", response);
                     var newImageUrl = "/uploads/profile/" + response;
                     $("#profileImage").attr("src", newImageUrl)
-
+                    $("#asideProfile").attr("src", newImageUrl)
                 },
                 error: function (xhr, textStatus, error) {
                     console.log("AJAX 오류:", error);
