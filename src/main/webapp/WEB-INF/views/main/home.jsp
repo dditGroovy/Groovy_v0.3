@@ -279,6 +279,7 @@
             type: 'GET',
             dataType: 'json',
             success: function (data) {
+                console.log("날씨 json data: ", data)
                 const items = data.response.body.items.item;
                 let sky = '';
                 let temperature = '';
