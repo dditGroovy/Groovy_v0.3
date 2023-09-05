@@ -53,6 +53,7 @@
 <label for="empProflPhotoFile">사진</label> <!-- 톱니 모양 -->
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
+    <p>${CustomUser.employeeVO.notificationVO.dutyRequest}</p>
     <img id="profileImage"
          src="${pageContext.request.contextPath}/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}"
          alt="profileImage"/>
@@ -108,65 +109,91 @@
     </form>
     <hr/>
 
-    <form action="">
+    <form action="#">
         <h3>알림 설정</h3>
         <p>알림 범위를 설정합니다.</p>
         <!-- 각 요소의 id, for 임시로 넣어 놓음 -->
         <div>
             <p>업무 요청</p>
-            <label class="toggle" for="a">
-                <input type="checkbox" id="a" value="NTCN010">
+            <label class="toggle" for="dutyRequest">
+                <input type="checkbox" id="dutyRequest" name="dutyRequest"
+                       value="${CustomUser.employeeVO.notificationVO.dutyRequest}">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div>
+            <p>댓글</p>
+            <label class="toggle" for="answer">
+                <input type="checkbox" id="answer" name="answer" value="${CustomUser.employeeVO.notificationVO.answer}">
                 <span class="slider"></span>
             </label>
         </div>
         <div>
             <p>팀 커뮤니티</p>
-            <label class="toggle" for="b">
-                <input type="checkbox" id="b">
+            <label class="toggle" for="teamNotice">
+                <input type="checkbox" id="teamNotice" name="teamNotice"
+                       value="${CustomUser.employeeVO.notificationVO.teamNotice}">
                 <span class="slider"></span>
             </label>
         </div>
         <div>
             <p>공지사항</p>
-            <label class="toggle" for="c">
-                <input type="checkbox" id="c">
-                <span class="slider"></span>
-            </label>
-        </div>
-        <div>
-            <p>전자결재</p>
-            <label class="toggle" for="d">
-                <input type="checkbox" id="d">
+            <label class="toggle" for="companyNotice">
+                <input type="checkbox" id="companyNotice" name="companyNotice"
+                       value="${CustomUser.employeeVO.notificationVO.companyNotice}">
                 <span class="slider"></span>
             </label>
         </div>
         <div>
             <p>일정</p>
-            <label class="toggle" for="e">
-                <input type="checkbox" id="e">
+            <label class="toggle" for="schedule">
+                <input type="checkbox" id="schedule" name="schedule"
+                       value="${CustomUser.employeeVO.notificationVO.schedule}">
                 <span class="slider"></span>
             </label>
         </div>
         <div>
             <p>채팅 방 개설 알림</p>
-            <label class="toggle" for="f">
-                <input type="checkbox" id="f">
+            <label class="toggle" for="newChattingRoom">
+                <input type="checkbox" id="newChattingRoom" name="newChattingRoom"
+                       value="${CustomUser.employeeVO.notificationVO.newChattingRoom}">
                 <span class="slider"></span>
             </label>
         </div>
         <div>
             <p>메일 수신 알림</p>
-            <label class="toggle" for="g">
-                <input type="checkbox" id="g">
+            <label class="toggle" for="emailReception">
+                <input type="checkbox" id="emailReception" name="emailReception"
+                       value="${CustomUser.employeeVO.notificationVO.emailReception}">
                 <span class="slider"></span>
             </label>
         </div>
+        <div>
+            <p>전자결재수신</p>
+            <label class="toggle" for="electronSanctionReception">
+                <input type="checkbox" id="electronSanctionReception" name="electronSanctionReception"
+                       value="${CustomUser.employeeVO.notificationVO.electronSanctionReception}">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div>
+            <p>전자결재결과</p>
+            <label class="toggle" for="electronSanctionResult">
+                <input type="checkbox" id="electronSanctionResult" name="electronSanctionResult"
+                       value="${CustomUser.employeeVO.notificationVO.electronSanctionResult}">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+
         <button type="button">취소</button>
-        <button type="button">저장</button>
+        <button type="button" onclick="saveNotificationSettings()">저장</button>
     </form>
 </sec:authorize>
 <script>
     $(document).ready(function () {
+        initializeCheckboxes();
+
         // 프로필 사진 수정
         $("#pSave").on("click", function () {
             var formData = new FormData($("#profileForm")[0]);
@@ -226,7 +253,44 @@
                 }
             });
         });
-
-
     });
+
+
+    // 초기 체크 상태 설정
+    function initializeCheckboxes() {
+        const checkboxIds = ["dutyRequest", "answer", "teamNotice", "companyNotice", "schedule", "newChattingRoom", "emailReception", "electronSanctionReception", "electronSanctionResult"];
+
+        checkboxIds.forEach(function (checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            const value = checkbox.value;
+            if (value === "NTCN_AT010") {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+        });
+    }
+
+    function saveNotificationSettings() {
+        const notificationSettings = {};
+        const checkboxIds = ["dutyRequest", "answer", "teamNotice", "companyNotice", "schedule", "newChattingRoom", "emailReception", "electronSanctionReception", "electronSanctionResult"];
+
+        checkboxIds.forEach(function (checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            notificationSettings[checkboxId] = checkbox.checked ? "NTCN_AT010" : "NTCN_AT011";
+        });
+
+        $.ajax({
+            url: `/employee/modifyNoticeAt/${CustomUser.employeeVO.emplId}`,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(notificationSettings),
+            success: function (data) {
+                console.log("알림 설정 성공");
+            },
+            error: function (xhr, textStatus, error) {
+                console.log("AJAX 오류:", error);
+            }
+        });
+    }
 </script>

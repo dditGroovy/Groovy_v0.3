@@ -16,5 +16,5 @@ public class NotificationVO {
     private String newChattingRoom;
     private String emailReception;
     private String electronSanctionReception;
-    private String electronSanction;
+    private String electronSanctionResult;
 }

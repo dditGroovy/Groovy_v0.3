@@ -4,7 +4,7 @@
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
 <h2>안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
-오늘 업무도 힘차게 파이팅!</h2>
+오늘 업무도 힘차게 파이팅! 테스트2</h2>
     <br>
 <form>
     <button type="button" id="work" data-io="0">출근하기</button>

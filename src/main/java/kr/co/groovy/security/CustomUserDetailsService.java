@@ -22,10 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         EmployeeVO employeeVO = this.mapper.signIn(id);
-        log.info(employeeVO + "");
-//        NotificationVO notificationVO = mapper.loadNotiStatus(id);
-//        employeeVO.setNotificationVO(notificationVO);
-//        log.info(employeeVO.getNotificationVO()+"");
+        NotificationVO notificationVO = mapper.getNoticeAt(id);
+        if (notificationVO !=null){
+            employeeVO.setNotificationVO(notificationVO);
+        }
         return employeeVO == null ? null : new CustomUser(employeeVO);
     }
 }

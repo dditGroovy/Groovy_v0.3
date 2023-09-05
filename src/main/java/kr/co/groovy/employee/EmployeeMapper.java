@@ -4,7 +4,6 @@ import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ public interface EmployeeMapper {
 
     int countEmp();
 
-    int inputEmp(EmployeeVO vo);
+    void inputEmp(EmployeeVO vo);
 
     List<EmployeeVO> loadEmpList();
 
@@ -33,8 +32,10 @@ public interface EmployeeMapper {
     void modifyPassword(@Param("emplId")String emplId, @Param("emplPassword")String emplPassword);
     void modifySign(@Param("emplId") String emplId, @Param("fileName") String fileName, @Param("originalFileName") String originalFileName);
 
-    NotificationVO loadNotiStatus (String emplId);
+    NotificationVO getNoticeAt (String emplId);
 
     void modifyEmp(EmployeeVO vo);
+
+    void modifyNoticeAt( Map<String, Object> map);
 }
 
