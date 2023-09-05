@@ -11,10 +11,10 @@ import java.util.Date;
 @Setter
 @ToString
 public class CommuteVO {
-    private Date dclzWorkDe;
+    private String dclzWorkDe;
     private String dclzEmplId;
-    private Date dclzAttendTm;
-    private Date dclzLvffcTm;
+    private String dclzAttendTm;
+    private String dclzLvffcTm;
     private int dclzDailWorkTime;
     private int dclzWikWorkTime;
     private String commonCodeLaborSttus;
