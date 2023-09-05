@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -30,9 +31,14 @@ public class VehicleController {
     @GetMapping("/reservedVehicles/{vhcleNo}")
     @ResponseBody
     public List<VehicleVO> getReservedVehicle(@PathVariable String vhcleNo) {
-        log.info("vhcleNo: " + vhcleNo);
         List<VehicleVO> reservedVehicle = service.getReservedVehicle(vhcleNo);
-        log.info("reservedVehicle: " + reservedVehicle);
         return reservedVehicle;
+    }
+
+    @GetMapping("/myReservedVehicles")
+    @ResponseBody
+    public List<VehicleVO> getReservedVehicleByEmplId(Principal vhcleResveEmplId) {
+        List<VehicleVO> reservedVehicleByEmplId = service.getReservedVehicleByEmplId(vhcleResveEmplId.getName());
+        return reservedVehicleByEmplId;
     }
 }

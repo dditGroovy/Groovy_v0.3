@@ -9,5 +9,7 @@ import java.util.List;
 public interface VehicleMapper {
     public List<VehicleVO> getVehicles();
 
-    public List<VehicleVO> getReservedVehicle(String vhcleNo);
+    public List<VehicleVO> getReservedVehicleByVhcleNo(String vhcleNo);
+
+    public List<VehicleVO> getReservedVehicleByEmplId(String emplId);
 }

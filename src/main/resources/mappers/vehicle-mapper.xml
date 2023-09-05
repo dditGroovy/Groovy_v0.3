@@ -4,12 +4,18 @@
     <select id="getVehicles" resultType="vehicleVO">
         select * from VHCLE
     </select>
-    <select id="getReservedVehicle" resultType="vehicleVO" parameterType="String">
+    <select id="getReservedVehicleByVhcleNo" resultType="vehicleVO" parameterType="String">
         select *
         from VHCLE v
                  full outer join VHCLE_RESVE vr on v.VHCLE_NO = vr.VHCLE_NO
         where TRUNC(vr.VHCLE_RESVE_BEGIN_TIME) = TRUNC(sysdate)
           and v.VHCLE_NO = #{vhcleNo}
+    </select>
+    <select id="getReservedVehicleByEmplId" resultType="vehicleVO" parameterType="String">
+        select *
+        from VHCLE_RESVE
+        where VHCLE_RESVE_EMPL_ID = #{vhcleResveEmplId}
+          and TRUNC(VHCLE_RESVE_BEGIN_TIME) = TRUNC(sysdate)
     </select>
 
 </mapper>

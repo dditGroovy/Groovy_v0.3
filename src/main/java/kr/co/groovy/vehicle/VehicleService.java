@@ -23,7 +23,12 @@ public class VehicleService {
     }
 
     public List<VehicleVO> getReservedVehicle(String vhcleNo) {
-        List<VehicleVO> reservedVehicle = mapper.getReservedVehicle(vhcleNo);
+        List<VehicleVO> reservedVehicle = mapper.getReservedVehicleByVhcleNo(vhcleNo);
         return reservedVehicle;
+    }
+
+    public List<VehicleVO> getReservedVehicleByEmplId(String vhcleResveEmplId) {
+        List<VehicleVO> reservedVehicleByEmplId = mapper.getReservedVehicleByEmplId(vhcleResveEmplId);
+        return reservedVehicleByEmplId;
     }
 }

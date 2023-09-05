@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <h1><a href="/facility/meeting">회의실 예약</a></h1>
 <h1><a href="/facility/rest">자리 예약</a></h1>
 <h1><a href="/facility/vehicle">차량 예약</a></h1>
@@ -20,9 +19,9 @@
         </div>
     </button>
 </c:forEach>
-
 <hr/>
-<div>
+<h2 onclick="reserveVehicle()">예약하기</h2>
+<div id="reserve">
     <form action="">
         <!-- 차량 클릭시 차 번호가 name값으로 들어옴 -->
         <input type="hidden" name="vhcleNo" id="vhcleNo"/>
@@ -49,9 +48,9 @@
         <button type="button">예약하기</button>
     </form>
 </div>
-
+<h2 onclick="getMyReserveList()">내 예약 현황</h2>
+<div id="myReserveList" style="display: none"></div>
 <script>
-
     //날짜
     let today = document.querySelector("#today");
 
@@ -78,6 +77,10 @@
         xhr.setRequestHeader("ContentType", "application/json;charset=utf-8");
         xhr.onreadystatechange = function () {
             if (xhr.status == 200 && xhr.readyState == 4) {
+                const timeButtonList = document.querySelectorAll(".timeButton");
+                for (let j = 0; j < timeButtonList.length; j++) {
+                    timeButtonList[j].removeAttribute("disabled");
+                }
                 let result = JSON.parse(xhr.responseText); // 어차피 예약된 애들만 옴
                 for (let i = 0; i < result.length; i++) {
                     const reservedDate = new Date(result[i].vhcleResveBeginTime);
@@ -90,8 +93,6 @@
                     const now = `\${nowYear}/\${month}/\${day}`;
 
                     let reservedTime = reservedDate.getHours();
-                    console.log(reservedTime);
-                    const timeButtonList = document.querySelectorAll(".timeButton");
                     for (let j = 0; j < timeButtonList.length; j++) {
                         let timeButtonValue = timeButtonList[j].textContent;
                         timeButtonValue = timeButtonValue.substring(0, timeButtonValue.indexOf(":"));
@@ -103,6 +104,46 @@
             }
         }
         xhr.send(vhcleNo);
+    }
+
+    const myReserveList = document.querySelector("#myReserveList");
+    const reserve = document.querySelector("#reserve");
+
+    function getMyReserveList() {
+        if (myReserveList.style.display === "none") {
+            myReserveList.style.display = "block";
+            reserve.style.display = "none";
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "/facility/myReservedVehicles", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let myReservedList = JSON.parse(xhr.responseText);
+                    let tableStr = `<table border=1><tr><td>차번호</td><td>예약시간</td><td>취소</td></tr>`;
+                    for (let i = 0; i < myReservedList.length; i++) {
+                        let beginHour = new Date(myReservedList[i].vhcleResveBeginTime).getHours().toString() + ":00";
+                        let endHour = new Date(myReservedList[i].vhcleResveEndTime).getHours().toString() + ":00";
+                        let newTr = document.createElement("tr");
+
+                        tableStr += `
+                            <tr>
+                                <td>\${myReservedList[i].vhcleNo}</td>
+                                <td>\${beginHour} - \${endHour}</td>
+                                <td><button onclick="cancelReservation()">취소</button></td>
+                             </tr>`;
+                        document.querySelector("#myReserveList").innerHTML = tableStr;
+                    }
+                }
+            }
+            xhr.send();
+        }
+    }
+
+    function reserveVehicle() {
+        if (reserve.style.display === "none") {
+            reserve.style.display = "block";
+            myReserveList.style.display = "none";
+        }
     }
 
 
