@@ -24,7 +24,7 @@
             text-align: center;
         }
     </style>
-    <h1>수정수정 - 4</h1>
+    <h1>수정수정 - 6</h1>
     <h1>${CustomUser.employeeVO.emplId}</h1>
     <h1>${commuteVO}</h1>
     <div>
