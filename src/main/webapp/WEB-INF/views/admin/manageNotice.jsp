@@ -34,7 +34,6 @@
     class ClassLink {
         init(params){
             this.eGui = document.createElement('a');
-            console.log(params);
             /* 매핑한거 넣으쇼*/
             this.eGui.setAttribute('href',`/admin/noticeDetail?notiEtprCode=\${params.data.notiEtprCode}`);
             this.eGui.innerText = params.value;
@@ -48,15 +47,15 @@
         init(params){
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
-                    <button class="modifyNotice" data-id='${params.data.notiEtprCode}'>수정</button>
-                    <button class="deleteNotice" data-id='${params.data.notiEtprCode}'>삭제</button>
+                    <button class="modifyNotice">수정</button>
+                    <button class="deleteNotice">삭제</button>
                 `;
-            this.id = params.data.count;
+            this.id = params.data.notiEtprCode;
             this.modifyBtn= this.eGui.querySelector(".modifyNotice");
             this.deleteBtn= this.eGui.querySelector(".deleteNotice");
             /*ajax나 뭐 알아서 추가 하기~*/
-            this.modifyBtn.onclick = () => {alert(this.id + "수정하기")};
-            this.deleteBtn.onclick = () => {alert(this.id + "삭제하기")};
+            this.modifyBtn.onclick = () => {location.href = "admin/"+ this.id};
+            this.deleteBtn.onclick = () => {location.href = "admin/"+ this.id};
         }
         getGui() {
             return this.eGui;
