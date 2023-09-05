@@ -2,7 +2,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <style>
     .toggle {
         position: relative;
@@ -175,8 +174,8 @@
                 type: "POST",
                 url: "/employee/modifyProfile",
                 data: formData,
-                contentType: false, // 필수
-                processData: false, // 필수
+                contentType: false,
+                processData: false,
                 cache: false,
                 success: function (response) {
                     console.log("프로필 사진 수정 성공", response);
@@ -185,7 +184,6 @@
 
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -203,7 +201,6 @@
                     console.log("비밀번호 수정 성공");
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -216,8 +213,8 @@
                 type: "POST",
                 url: "/employee/modifySign",
                 data: formData,
-                contentType: false, // 필수
-                processData: false, // 필수
+                contentType: false,
+                processData: false,
                 cache: false,
                 success: function (response) {
                     console.log("서명 사진 수정 성공");
@@ -225,7 +222,6 @@
                     $("#userSignProfile").attr("src", newImageUrl)
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -234,13 +230,3 @@
 
     });
 </script>
-
-
-<%--    <h3>정보 변경</h3>--%>
-<%--    <label for="emplTelNo">휴대폰 번호</label>--%>
-<%--    <input type="text" name="emplTelNo" id="emplTelNo" placeholder="010-1234-1234"/>--%>
-<%--    <label for="emplZip">우편번호</label> <!-- 나중에 display:none -->--%>
-<%--    <input type="text" name="emplZip" id="emplZip" placeholder="12345"/>--%>
-<%--    <label for="emplAdres">주소</label>--%>
-<%--    <input type="text" name="emplAdres" id="emplAdres" placeholder="경기도 성남시 분당구 새마을로 38"/>--%>
-
