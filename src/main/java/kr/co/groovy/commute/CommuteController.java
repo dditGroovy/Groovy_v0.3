@@ -60,6 +60,9 @@ public class CommuteController {
 
     @GetMapping("/getAllMonth")
     public List<String> getAllMonth(String year, String dclzEmplId) {
+        if (year == null) {
+            year = "0";
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("year", year);
         map.put("dclzEmplId", dclzEmplId);

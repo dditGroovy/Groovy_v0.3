@@ -2,7 +2,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <style>
     .toggle {
         position: relative;
@@ -54,8 +53,9 @@
 <label for="empProflPhotoFile">사진</label> <!-- 톱니 모양 -->
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
-    <img src="${pageContext.request.contextPath}/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}"
-         alt="profileImage" id="profileImage"/>
+    <img id="profileImage"
+         src="${pageContext.request.contextPath}/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}"
+         alt="profileImage"/>
 
 
     <form id="profileForm" method="POST" enctype="multipart/form-data">
@@ -90,8 +90,10 @@
     <h3>서명 설정/변경</h3>
     <p>전자결재에 필요한 서명을 설정 · 변경합니다.</p>
     <div id="emplSignFilePreview"></div>
-    <img id="userSignProfile" src="/resources/images/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"/>
     <!-- 미리보기 -->
+    <img id="userSignProfile"
+         src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
+         alt="signImage"/>
     <p>서명</p>
     <label for="emplSignFile">등록</label> <!-- 등록 버튼 -->
 
@@ -172,8 +174,8 @@
                 type: "POST",
                 url: "/employee/modifyProfile",
                 data: formData,
-                contentType: false, // 필수
-                processData: false, // 필수
+                contentType: false,
+                processData: false,
                 cache: false,
                 success: function (response) {
                     console.log("프로필 사진 수정 성공", response);
@@ -182,7 +184,6 @@
 
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -200,7 +201,6 @@
                     console.log("비밀번호 수정 성공");
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -213,14 +213,15 @@
                 type: "POST",
                 url: "/employee/modifySign",
                 data: formData,
-                contentType: false, // 필수
-                processData: false, // 필수
+                contentType: false,
+                processData: false,
                 cache: false,
                 success: function (response) {
                     console.log("서명 사진 수정 성공");
+                    var newImageUrl = "/uploads/sign/" + response;
+                    $("#userSignProfile").attr("src", newImageUrl)
                 },
                 error: function (xhr, textStatus, error) {
-                    // 오류 발생 시 처리
                     console.log("AJAX 오류:", error);
                 }
             });
@@ -229,13 +230,3 @@
 
     });
 </script>
-
-
-<%--    <h3>정보 변경</h3>--%>
-<%--    <label for="emplTelNo">휴대폰 번호</label>--%>
-<%--    <input type="text" name="emplTelNo" id="emplTelNo" placeholder="010-1234-1234"/>--%>
-<%--    <label for="emplZip">우편번호</label> <!-- 나중에 display:none -->--%>
-<%--    <input type="text" name="emplZip" id="emplZip" placeholder="12345"/>--%>
-<%--    <label for="emplAdres">주소</label>--%>
-<%--    <input type="text" name="emplAdres" id="emplAdres" placeholder="경기도 성남시 분당구 새마을로 38"/>--%>
-
