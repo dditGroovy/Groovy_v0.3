@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.vehicle.VehicleMapper">
+    <insert id="inputReservation" parameterType="vehicleVO">
+        insert into VHCLE_RESVE
+        values (VHCLE_RESVE_SEQ.nextval, #{vhcleResveBeginTime}, #{vhcleResveEndTime}, #{vhcleNo}, #{vhcleResveEmplId},
+                #{commonCodeResveAt})
+    </insert>
     <select id="getVehicles" resultType="vehicleVO">
-        select * from VHCLE
+        select *
+        from VHCLE
     </select>
     <select id="getReservedVehicleByVhcleNo" resultType="vehicleVO" parameterType="String">
         select *

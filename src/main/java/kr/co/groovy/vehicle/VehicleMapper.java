@@ -12,4 +12,6 @@ public interface VehicleMapper {
     public List<VehicleVO> getReservedVehicleByVhcleNo(String vhcleNo);
 
     public List<VehicleVO> getReservedVehicleByEmplId(String emplId);
+
+    public int inputReservation(VehicleVO vehicleVO);
 }

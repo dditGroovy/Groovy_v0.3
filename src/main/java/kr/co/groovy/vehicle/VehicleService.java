@@ -31,4 +31,9 @@ public class VehicleService {
         List<VehicleVO> reservedVehicleByEmplId = mapper.getReservedVehicleByEmplId(vhcleResveEmplId);
         return reservedVehicleByEmplId;
     }
+
+    public int inputReservation(VehicleVO vehicleVO) {
+        int count = mapper.inputReservation(vehicleVO);
+        return count;
+    }
 }

@@ -20,48 +20,56 @@
     </button>
 </c:forEach>
 <hr/>
-<h2 onclick="reserveVehicle()">예약하기</h2>
-<div id="reserve">
-    <form action="" method="post">
-        <!-- 차량 클릭시 차 번호가 name값으로 들어옴 -->
-        <input type="hidden" name="vhcleNo" id="vhcleNo"/>
-        <p id="today"></p>
-        <p id="time"></p>
-        <p>오전</p>
-        <p>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="9:00"> 9:00
-            </label>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="11:00"> 11:00
-            </label>
-        </p>
+<h2 onclick="goReservation()">예약하기</h2>
+<div id="reserveBox">
+    <!-- 차량 클릭시 차 번호가 name값으로 들어옴 -->
+    <input type="hidden" name="vhcleNo" id="vhcleNo"/>
+    <p id="today"></p>
+    <p id="time"></p>
+    <p>대여시간</p>
+    <label>
+        <select name="selectVhcleResveBeginTime" id="selectVhcleResveBeginTime">
+            <option value="대여시간" selected>대여시간</option>
+            <option value="9:00">9:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+        </select>
+    </label>
 
-        <p>오후</p>
-        <p>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="13:00"> 13:00
-            </label>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="15:00"> 15:00
-            </label>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="17:00"> 17:00
-            </label>
-            <label>
-                <input type="radio" name="time" class="timeRadio" value="19:00"> 19:00
-            </label>
-        </p>
-        <%--    <h3>요청사항</h3>--%>
-        <%--    <input type="text" name="" value="" placeholder="비품 등 요청 사항을 적어주세요 :)"/>--%>
+    <p>반납시간</p>
+    <select name="selectVhcleResveEndTime" id="selectVhcleResveEndTime" required>
+        <option value="반납시간" selected>반납시간</option>
+        <option value="9:00">9:00</option>
+        <option value="10:00">10:00</option>
+        <option value="11:00">11:00</option>
+        <option value="12:00">12:00</option>
+        <option value="13:00">13:00</option>
+        <option value="14:00">14:00</option>
+        <option value="15:00">15:00</option>
+        <option value="16:00">16:00</option>
+        <option value="17:00">17:00</option>
+        <option value="18:00">18:00</option>
+        <option value="19:00">19:00</option>
+        <option value="20:00">20:00</option>
+        <option value="21:00">21:00</option>
+        <option value="22:00">22:00</option>
+    </select>
+    <%--    <h3>요청사항</h3>--%>
+    <%--    <input type="text" name="" value="" placeholder="비품 등 요청 사항을 적어주세요 :)"/>--%>
 
-        <div>
-            <p><i></i>가능</p>
-            <p><i></i>불가능</p>
-        </div>
+    <div>
+        <p><i></i>가능</p>
+        <p><i></i>불가능</p>
+    </div>
 
-        <button type="button">예약하기</button>
-    </form>
+    <button onclick="createReservation()" type="button">예약하기</button>
 </div>
 <h2 onclick="getMyReserveList()">내 예약 현황</h2>
 <div id="myReserveList" style="display: none"></div>
@@ -70,8 +78,10 @@
     let today = document.querySelector("#today");
 
     const currentDate = new Date();
+    const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
+    const now = `\${year}/\${month}/\${day}`;
     const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
     const dayOfWeek = daysOfWeek[currentDate.getDay()];
 
@@ -84,17 +94,18 @@
         $("#vhcleNo").attr("value", vhcleNo);
     }
 
+    const selectVhcleResveBeginTime = document.getElementById("selectVhcleResveBeginTime");
+
     function loadReservation(vhcle) {
         vhcleNo = $(vhcle).find(".no").html();
-
         let xhr = new XMLHttpRequest();
         xhr.open("get", `/facility/reservedVehicles/\${vhcleNo}`, true);
         xhr.setRequestHeader("ContentType", "application/json;charset=utf-8");
         xhr.onreadystatechange = function () {
             if (xhr.status == 200 && xhr.readyState == 4) {
-                const timeRadioList = document.querySelectorAll(".timeRadio");
-                for (let j = 0; j < timeRadioList.length; j++) {
-                    timeRadioList[j].removeAttribute("disabled");
+                const selectBeginTimeList = selectVhcleResveBeginTime.querySelectorAll('option');
+                for (let i = 0; i < selectBeginTimeList.length; i++) {
+                    selectBeginTimeList[i].removeAttribute("disabled");
                 }
                 let result = JSON.parse(xhr.responseText); // 어차피 예약된 애들만 옴
                 for (let i = 0; i < result.length; i++) {
@@ -102,17 +113,17 @@
                     let reservedYear = reservedDate.getFullYear();
                     let reservedMonth = reservedDate.getMonth() + 1;
                     let reservedDay = reservedDate.getDate();
-                    const reserved = `\${reservedYear}/\${reservedMonth}/\${reservedDay}`;
-
-                    let nowYear = currentDate.getFullYear();
-                    const now = `\${nowYear}/\${month}/\${day}`;
-
                     let reservedTime = reservedDate.getHours();
-                    for (let j = 0; j < timeRadioList.length; j++) {
-                        let timeRadioValue = timeRadioList[j].value;
-                        timeRadioValue = timeRadioValue.substring(0, timeRadioValue.indexOf(":"));
-                        if (reserved == now && reservedTime == timeRadioValue) {
-                            timeRadioList[j].setAttribute("disabled", "disabled");
+
+                    const reservedStr = `\${reservedYear}/\${reservedMonth}/\${reservedDay}`;
+
+
+                    for (let j = 0; j < selectBeginTimeList.length; j++) {
+                        let selectBeginTime = selectBeginTimeList[j].value;
+                        let selectBeginHour = selectBeginTime.substring(0, selectBeginTime.indexOf(":"));
+                        if (reservedStr == now && reservedTime == selectBeginHour) {
+                            let option = selectVhcleResveBeginTime.querySelector(`option[value='\${selectBeginTime}']`);
+                            option.disabled = true;
                         }
                     }
                 }
@@ -122,12 +133,12 @@
     }
 
     const myReserveList = document.querySelector("#myReserveList");
-    const reserve = document.querySelector("#reserve");
+    const reserveBox = document.querySelector("#reserveBox");
 
     function getMyReserveList() {
         if (myReserveList.style.display === "none") {
             myReserveList.style.display = "block";
-            reserve.style.display = "none";
+            reserveBox.style.display = "none";
 
             let xhr = new XMLHttpRequest();
             xhr.open("get", "/facility/myReservedVehicles", true);
@@ -154,11 +165,58 @@
         }
     }
 
-    function reserveVehicle() {
-        if (reserve.style.display === "none") {
-            reserve.style.display = "block";
+    function goReservation() {
+        if (reserveBox.style.display === "none") {
+            reserveBox.style.display = "block";
             myReserveList.style.display = "none";
         }
+    }
+
+    function createReservation() {
+        let $vhcleResveBeginTime = $("select[name='selectVhcleResveBeginTime'] option:selected").val();
+        $vhcleResveBeginTime = new Date(`\${now} \${$vhcleResveBeginTime}`);
+        let $vhcleResveEndTime = $("select[name='selectVhcleResveEndTime'] option:selected").text();
+        $vhcleResveEndTime = new Date(`\${now} \${$vhcleResveEndTime}`);
+
+        let vehicleVO = {
+            vhcleResveBeginTime: $vhcleResveBeginTime,
+            vhcleResveEndTime: $vhcleResveEndTime,
+            vhcleNo: $("input[name='vhcleNo']").val(),
+            commonCodeResveAt: 'RESVE011'
+        }
+
+        $.ajax({
+            url: "/facility/inputReservation",
+            type: "post",
+            data: JSON.stringify(vehicleVO),
+            contentType: "application/json;charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                if (result) {
+                    alert("예약이 완료되었습니다. 총무팀에서 차키를 받을 수 있습니다.");
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+                if (xhr.responseText === "vhcleNo is null") {
+                    alert("차종을 선택해주세요.");
+                } else if (xhr.responseText === "beginTime is null") {
+                    alert("대여시간을 선택해주세요.");
+                } else if (xhr.responseText === "endTime is null") {
+                    alert("반납시간을 선택해주세요.");
+                }
+
+                if (xhr.responseText == "same time") {
+                    alert("대여시간과 반납시간을 다르게 선택해주세요.");
+                }
+            }
+        });
+
+
     }
 
 

@@ -37,7 +37,7 @@
         <li class="nav-list"><a href="${pageContext.request.contextPath}/task"><i class="icon icon4"></i>내 할 일</a></li>
         <li class="nav-list"><a href="#"><i class="icon icon5"></i>결재함</a></li>
       </ul>
-    </div>
+    </div>\
     <div class="team">
       <span class="nav-cate">팀</span>
       <ul>
