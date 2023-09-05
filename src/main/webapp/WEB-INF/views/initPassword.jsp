@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>초기 비밀번호 설정</title>
+    <link rel="icon" type="image/svg+xml" href="${pageContext.request.contextPath}/resources/favicon.svg">
 </head>
 <body>
 <h1>Welcome! 입사를 축하합니다</h1>
