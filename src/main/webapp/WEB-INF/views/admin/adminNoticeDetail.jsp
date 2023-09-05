@@ -71,7 +71,7 @@
                 ${noticeDetail.notiDate}
             </div>
             <c:forEach var="notiFile" items="${notiFiles}" varStatus="stat">
-                <p><a href="/common/fileDownload?uploadFileSn=${notiFile.uploadFileSn}">${notiFile.uploadFileOrginlNm}</a>
+                <input><a href="/common/fileDownload?uploadFileSn=${notiFile.uploadFileSn}">${notiFile.uploadFileOrginlNm}</a>
                     <fmt:formatNumber value="${notiFile.uploadFileSize / 1024.0}"
                                       type="number" minFractionDigits="1" maxFractionDigits="1"/> KB</p>
             </c:forEach>
