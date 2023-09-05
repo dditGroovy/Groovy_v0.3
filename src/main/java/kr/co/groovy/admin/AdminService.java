@@ -67,7 +67,12 @@ public class AdminService {
         } catch (Exception e) {
             log.info("공지 파일 등록 실패");
         }
-
-
     }
+
+    public void deleteNotice(String notiEtprCode) {
+        mapper.deleteNotice(notiEtprCode);
+    }
+
+    ;
+
 }

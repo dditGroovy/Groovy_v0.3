@@ -54,8 +54,8 @@
             this.modifyBtn= this.eGui.querySelector(".modifyNotice");
             this.deleteBtn= this.eGui.querySelector(".deleteNotice");
             /*ajax나 뭐 알아서 추가 하기~*/
-            this.modifyBtn.onclick = () => {location.href = "admin/"+ this.id};
-            this.deleteBtn.onclick = () => {location.href = "admin/"+ this.id};
+            this.modifyBtn.onclick = () => {location.href = "/admin/deleteNotice?notiEtprCode="+ this.id};
+            this.deleteBtn.onclick = () => {location.href = "/admin/deleteNotice?notiEtprCode="+ this.id};
         }
         getGui() {
             return this.eGui;

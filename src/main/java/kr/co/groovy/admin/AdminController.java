@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
 @Slf4j
 @RequestMapping("/admin")
 @Controller
@@ -36,24 +37,31 @@ public class AdminController {
         return mav;
 
     }
+
     @GetMapping("/inputNotice")
-    public String inputNoticeForm(){
+    public String inputNoticeForm() {
         return "admin/inputNotice";
     }
+
     @PostMapping("/inputNotice")
-    public String inputNotice(NoticeVO vo, MultipartFile[] notiFiles){
+    public String inputNotice(NoticeVO vo, MultipartFile[] notiFiles) {
         service.inputNotice(vo, notiFiles);
         return "redirect:/admin/manageNotice";
     }
+
     @GetMapping("/noticeDetail")
     public ModelAndView loadNoticeDetail(ModelAndView mav, String notiEtprCode) {
-//        commonService.modifyNoticeView(notiEtprCode);
         NoticeVO vo = commonService.loadNoticeDetail(notiEtprCode);
-        log.info(vo + "");
         List<UploadFileVO> list = commonService.loadNotiFiles(notiEtprCode);
         mav.addObject("noticeDetail", vo);
         mav.addObject("notiFiles", list);
         mav.setViewName("admin/adminNoticeDetail");
         return mav;
+    }
+
+    @GetMapping("deleteNotice")
+    public String deleteNotice(String notiEtprCode) {
+        service.deleteNotice(notiEtprCode);
+        return "redirect:/admin/manageNotice";
     }
 }

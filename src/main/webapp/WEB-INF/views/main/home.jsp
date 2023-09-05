@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<h2>유저이름 : \${}</h2>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="CustomUser"/>
+<h2>안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
+오늘 업무도 힘차게 파이팅!</h2>
+    <br>
 <form>
     <button type="button" id="work" data-io="0">출근하기</button>
     <p id="workTime">00:00</p>
@@ -112,6 +117,7 @@
     <input type="file" name="defaultFile">
     <button type="submit">저장</button>
 </form>
+</sec:authorize>
 <script>
     $(document).ready(function () {
         // -----------------------------------------------------------날짜 포맷팅

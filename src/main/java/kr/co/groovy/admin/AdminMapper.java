@@ -14,4 +14,6 @@ public interface AdminMapper {
     int getNotiSeq();
 
     void uploadNoticeFile(Map<String, Object> map);
+
+    void deleteNotice(String notiEtprCode);
 }
