@@ -36,7 +36,7 @@
             this.eGui = document.createElement('a');
             console.log(params);
             /* 매핑한거 넣으쇼*/
-            this.eGui.setAttribute('href',`/admin/noticeDetail/\${params.data.notiEtprCode}`);
+            this.eGui.setAttribute('href',`/admin/noticeDetail?notiEtprCode=\${params.data.notiEtprCode}`);
             this.eGui.innerText = params.value;
         }
         getGui() {
@@ -103,10 +103,13 @@
     });
     const insertNotiBtn = document.querySelector("#insertNoti");
     const submitBtn = document.querySelector("#submitBtn");
+
+
     /*const modal = document.querySelector("#modal");*/
     insertNotiBtn.addEventListener("click",() => {
         location.href= "/admin/inputNotice";
     })
+
     /*submitBtn.addEventListener("click",() => {
         modal.style.display = "none";
     })*/

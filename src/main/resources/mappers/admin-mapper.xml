@@ -11,7 +11,7 @@
         VALUES (#{notiEtprCode},
                 #{notiTitle},
                 #{notiContent},
-                TO_DATE(sysdate, 'YYYYMMDD'),
+                sysdate,
                 #{notiCtgryIconFileStreNm},
                 'NOTI020')
     </insert>
@@ -28,7 +28,7 @@
                 #{originalFileName},
                 #{newFileName},
                 #{fileSize},
-                TO_CHAR(sysdate, 'yyyyMMdd'))
+                sysdate)
     </insert>
     <select id="getNotiSeq" resultType="int">
         SELECT NOTI_SEQ.nextval
@@ -43,7 +43,7 @@
         UPDATE NOTI
         SET NOTI_TITLE                   = #{notiTitle},
             NOTI_CONTENT                 = #{notiContent},
-            NOTI_DATE                    = TO_CHAR(sysdate, 'yyyyMMdd'),
+            NOTI_DATE                    = sysdate,
             NOTI_CTGRY_ICON_FILE_STRE_NM = #{notiCtgryIconFileStreNm}
         WHERE NOTI_ETPR_CODE = #{notiEtprCode}
     </update>
