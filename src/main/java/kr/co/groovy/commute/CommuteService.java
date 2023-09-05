@@ -22,8 +22,8 @@ public class CommuteService {
         return commuteMapper.getMaxWeeklyWorkTime(dclzEmplId);
     }
 
-    public int insertAttend(String dclzEmplId) {
-        return commuteMapper.insertAttend(dclzEmplId);
+    public int insertAttend(CommuteVO commuteVO) {
+        return commuteMapper.insertAttend(commuteVO);
     }
 
     public int updateCommute(String dclzEmplId) {
@@ -50,4 +50,7 @@ public class CommuteService {
         return commuteMapper.getCommuteByYearMonth(map);
     }
 
+    public CommuteVO getTest(String dclzEmplId) {
+        return commuteMapper.getTest(dclzEmplId);
+    };
 }

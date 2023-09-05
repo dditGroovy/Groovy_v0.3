@@ -69,7 +69,23 @@
           AND DCLZ_EMPL_ID = #{dclzEmplId}
     </select>
 
-    <insert id="insertAttend" parameterType="String">
+    <select id="getTest" parameterType="String" resultType="commuteVO">
+        SELECT
+            TO_CHAR(SYSDATE, 'YYYY-MM-DD') as DCLZ_WORK_DE,
+            #{dclzEmplId} as DCLZ_EMPL_ID,
+            TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') as DCLZ_ATTEND_TM,
+            '2000-01-01' as DCLZ_LVFFC_TM,
+            CASE
+                WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN
+                    (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'))
+                ELSE
+                    NVL((SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD')), 0)
+                END as DCLZ_WIK_WORK_TIME,
+            'LABOR_STTUS015' as COMMON_CODE_LABOR_STTUS
+        FROM DUAL
+    </select>
+
+    <insert id="insertAttend" parameterType="commuteVO">
         INSERT INTO DCLZ (
             DCLZ_WORK_DE,
             DCLZ_EMPL_ID,
@@ -77,20 +93,15 @@
             DCLZ_LVFFC_TM,
             DCLZ_WIK_WORK_TIME,
             COMMON_CODE_LABOR_STTUS
-        )
-        SELECT
-            sysdate,
-            #{dclzEmplId},
-            sysdate,
-            '2000-01-01',
-            CASE
-                WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN
-                    (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'))
-                ELSE
-                    NVL((SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD')), 0)
-                END,
-            'LABOR_STTUS015'
-        FROM DUAL
+        ) values
+              (
+                  to_date(#{dclzWorkDe}, 'yyyy-mm-dd'),
+                  #{dclzEmplId},
+                  to_date(#{dclzAttendTm}, 'yyyy-mm-dd hh24:mi:ss'),
+                  to_date(#{dclzLvffcTm}, 'yyyy-mm-dd hh24:mi:ss'),
+                  #{dclzWikWorkTime},
+                  #{commonCodeLaborSttus}
+                )
     </insert>
 
     <update id="updateCommute" parameterType="String">

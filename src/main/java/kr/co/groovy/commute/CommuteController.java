@@ -33,9 +33,10 @@ public class CommuteController {
         return Integer.toString(commuteService.getMaxWeeklyWorkTime(dclzEmplId));
     }
 
-    @PostMapping("/insertAttend/{dclzEmplId}")
-    public String insertAttend(@PathVariable String dclzEmplId) {
-        return Integer.toString(commuteService.insertAttend(dclzEmplId));
+    @PostMapping("/insertAttend")
+    public String insertAttend(CommuteVO commuteVO) {
+        log.info("commuteVO", commuteVO.toString());
+        return Integer.toString(commuteService.insertAttend(commuteVO));
     }
 
     @PutMapping("/updateCommute/{dclzEmplId}")
@@ -81,4 +82,8 @@ public class CommuteController {
         return commuteService.getCommuteByYearMonth(map);
     }
 
+    @GetMapping("/getTest/{dclzEmplId}")
+    public CommuteVO getTest(@PathVariable String dclzEmplId) {
+        return commuteService.getTest(dclzEmplId);
+    }
 }

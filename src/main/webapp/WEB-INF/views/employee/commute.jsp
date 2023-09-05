@@ -24,7 +24,7 @@
             text-align: center;
         }
     </style>
-    <h1>수정수정 - 2</h1>
+    <h1>수정수정 - 4</h1>
     <h1>${CustomUser.employeeVO.emplId}</h1>
     <h1>${commuteVO}</h1>
     <div>
@@ -392,6 +392,36 @@
                     }
                 }
             }
+        }
+
+        ////////////////////// select
+        let testCode = [];
+        getTest();
+
+        function getTest() {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getTest/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (commuteVO) {
+                    console.log(commuteVO);
+                    $.ajax({
+                        type: 'post',
+                        url: `/commute/insertAttend`,
+                        data: commuteVO,
+                        dataType: 'text',
+                        success: function(rslt) {
+                            console.log(rslt);
+                        },
+                        error: function (xhr) {
+                            console.log(rslt);
+                        }
+                    });
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                }
+            });
         }
     </script>
 </sec:authorize>
