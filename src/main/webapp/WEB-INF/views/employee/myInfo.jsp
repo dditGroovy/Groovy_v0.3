@@ -54,8 +54,9 @@
 <label for="empProflPhotoFile">사진</label> <!-- 톱니 모양 -->
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
-    <img src="${pageContext.request.contextPath}/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}"
-         alt="profileImage" id="profileImage"/>
+    <img id="profileImage"
+         src="${pageContext.request.contextPath}/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}"
+         alt="profileImage"/>
 
 
     <form id="profileForm" method="POST" enctype="multipart/form-data">
@@ -90,8 +91,10 @@
     <h3>서명 설정/변경</h3>
     <p>전자결재에 필요한 서명을 설정 · 변경합니다.</p>
     <div id="emplSignFilePreview"></div>
-    <img id="userSignProfile" src="/resources/images/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"/>
     <!-- 미리보기 -->
+    <img id="userSignProfile"
+         src="${pageContext.request.contextPath}/images/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
+         alt="signImage"/>
     <p>서명</p>
     <label for="emplSignFile">등록</label> <!-- 등록 버튼 -->
 
@@ -218,6 +221,8 @@
                 cache: false,
                 success: function (response) {
                     console.log("서명 사진 수정 성공");
+                    var newImageUrl = "/uploads/sign/" + response;
+                    $("#userSignProfile").attr("src", newImageUrl)
                 },
                 error: function (xhr, textStatus, error) {
                     // 오류 발생 시 처리
