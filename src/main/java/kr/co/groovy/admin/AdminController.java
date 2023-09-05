@@ -22,7 +22,7 @@ public class AdminController {
 
     final
     CommonService commonService;
-      
+
     public AdminController(AdminService service, CommonService commonService) {
         this.service = service;
         this.commonService = commonService;
