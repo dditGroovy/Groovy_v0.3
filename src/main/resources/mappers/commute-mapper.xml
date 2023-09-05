@@ -74,7 +74,7 @@
             TO_CHAR(SYSDATE, 'YYYY-MM-DD') as DCLZ_WORK_DE,
             #{dclzEmplId} as DCLZ_EMPL_ID,
             TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') as DCLZ_ATTEND_TM,
-            '2000-01-01' as DCLZ_LVFFC_TM,
+            TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') as DCLZ_LVFFC_TM,
             CASE
                 WHEN TO_CHAR(SYSDATE, 'DY', 'NLS_DATE_LANGUAGE=AMERICAN') = 'MON' THEN
                     (SELECT DCLZ_WIK_WORK_TIME FROM DCLZ WHERE DCLZ_EMPL_ID = #{dclzEmplId} AND DCLZ_WORK_DE = TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'))
