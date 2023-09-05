@@ -47,7 +47,7 @@ public class AdminController {
     }
     @GetMapping("/noticeDetail")
     public ModelAndView loadNoticeDetail(ModelAndView mav, String notiEtprCode) {
-        commonService.modifyNoticeView(notiEtprCode);
+//        commonService.modifyNoticeView(notiEtprCode);
         NoticeVO vo = commonService.loadNoticeDetail(notiEtprCode);
         List<UploadFileVO> list = commonService.loadNotiFiles(notiEtprCode);
         mav.addObject("noticeDetail", vo);
