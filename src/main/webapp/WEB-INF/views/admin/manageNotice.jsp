@@ -34,8 +34,9 @@
     class ClassLink {
         init(params){
             this.eGui = document.createElement('a');
+            console.log(params);
             /* 매핑한거 넣으쇼*/
-            this.eGui.setAttribute('href',`/admin/noticeDetail/\${params.data.count}}`);
+            this.eGui.setAttribute('href',`/admin/noticeDetail/\${params.data.notiEtprCode}`);
             this.eGui.innerText = params.value;
         }
         getGui() {
@@ -47,8 +48,8 @@
         init(params){
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
-                    <button class="modifyNotice" data-id='${params.value}'>수정</button>
-                    <button class="deleteNotice" data-id='${params.value}'>삭제</button>
+                    <button class="modifyNotice" data-id='${params.data.notiEtprCode}'>수정</button>
+                    <button class="deleteNotice" data-id='${params.data.notiEtprCode}'>삭제</button>
                 `;
             this.id = params.data.count;
             this.modifyBtn= this.eGui.querySelector(".modifyNotice");
@@ -79,12 +80,14 @@
         { field: "notiCtgryIconFileStreNm",  headerName:"카테고리"},
         { field: "notiTitle", headerName:"제목", cellRenderer : ClassLink, getQuickFilterText: (params) => {return params.data.notiTitle}},
         { field: "chk", headerName:" ", cellRenderer : ClassBtn},
+        { field: "notiEtprCode", headerName:"notiEtprCode", hide: true},
     ];
     <c:forEach var="noticeVO" items="${notiList}" varStatus="status"> <!-- 12: 공지사항 개수(length) -->
         rowData.push({
             count: "${status.count}",
             notiCtgryIconFileStreNm : "${noticeVO.notiCtgryIconFileStreNm}",
-            notiTitle : "${noticeVO.notiTitle}"
+            notiTitle : "${noticeVO.notiTitle}",
+            notiEtprCode : "${noticeVO.notiEtprCode}",
         })
     </c:forEach>
     const gridOptions = {
