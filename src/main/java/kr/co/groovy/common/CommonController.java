@@ -34,9 +34,9 @@ public class CommonController {
     String uploadPath;
 
 
-    public CommonController(CommonService service, String uploadTest) {
+    public CommonController(CommonService service, String uploadPath) {
         this.service = service;
-        this.uploadPath = uploadTest;
+        this.uploadPath = uploadPath;
     }
 
     @GetMapping("/loadNoticeList")

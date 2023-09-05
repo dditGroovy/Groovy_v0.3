@@ -20,9 +20,9 @@ public class AdminService {
     final
     String uploadPath;
 
-    public AdminService(AdminMapper mapper, String uploadTest) {
+    public AdminService(AdminMapper mapper, String uploadPath) {
         this.mapper = mapper;
-        this.uploadPath = uploadTest;
+        this.uploadPath = uploadPath;
     }
 
     public void inputNotice(NoticeVO vo, MultipartFile[] notiFiles) {

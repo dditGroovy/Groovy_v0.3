@@ -6,13 +6,11 @@ import kr.co.groovy.security.CustomUser;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.util.List;
@@ -26,16 +24,13 @@ public class EmployeeService {
     final
     BCryptPasswordEncoder encoder;
     final
-    MultipartHttpServletRequest request;
-    final
     String uploadPath;
 
 
-    public EmployeeService(EmployeeMapper mapper, BCryptPasswordEncoder encoder, MultipartHttpServletRequest request, String uploadTest) {
+    public EmployeeService(EmployeeMapper mapper, BCryptPasswordEncoder encoder, String uploadPath) {
         this.mapper = mapper;
         this.encoder = encoder;
-        this.request = request;
-        this.uploadPath = uploadTest;
+        this.uploadPath = uploadPath;
     }
 
     public EmployeeVO signIn(String emplId) {
