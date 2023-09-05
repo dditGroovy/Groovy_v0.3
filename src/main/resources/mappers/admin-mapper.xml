@@ -11,7 +11,7 @@
         VALUES (#{notiEtprCode},
                 #{notiTitle},
                 #{notiContent},
-                sysdate,
+                TO_DATE(sysdate, 'YYYYMMDD'),
                 #{notiCtgryIconFileStreNm},
                 'NOTI020')
     </insert>
