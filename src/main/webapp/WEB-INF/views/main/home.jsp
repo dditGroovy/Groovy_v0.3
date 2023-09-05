@@ -12,7 +12,7 @@
     <br/>
     <button type="button" id="leave" data-io="1">퇴근하기</button>
     <p id="leaveTime">00:00</p>
-    총 근무 시간 : <span id="totalWorkTime"></span>
+    <!-- 총 근무 시간 : <span id="totalWorkTime"></span> -->
 </form>
 
 <hr/>
@@ -120,6 +120,8 @@
     <img src="/uploads/test/test.png"/>
 </sec:authorize>
 <script>
+    let dclzEmplId = `${CustomUser.employeeVO.emplId}`;
+
     $(document).ready(function () {
         // -----------------------------------------------------------날짜 포맷팅
         let before = new Date();
@@ -139,14 +141,6 @@
         let workTimeData = undefined;
         let leaveTimeData = undefined;
         let totalWorkTime = undefined;
-
-        calculateTotalWorkTime = (workTimeData, leaveTimeData) => {
-            const [startHour, startMinute] = workTimeData.split(":").map(Number);
-            const [endHour, endMinute] = leaveTimeData.split(":").map(Number);
-            const totalMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
-            const totalHours = Math.floor(totalMinutes / 60);
-            return totalHours;
-        }
 
         function formatTime(currentTime) {
             const hours = currentTime.getHours().toString().padStart(2, "0");
@@ -173,71 +167,82 @@
                 return dayOfWeek = matches[4];
             }
         }
-
+        refreshCommute();
 
         //  출근버튼을 눌렀을 때
         btnWork.addEventListener("click", () => {
-            workTimeData = formatTime(new Date());
-            workTime.innerHTML = workTimeData;
-            /* 버튼을 눌렀을 때 서버로 데이터 전송 */
-            /* $.ajax({
-                type : "post",
-                //url 적어주세요
-                url : "#",
-                data : JSON.stringify({
-                    employee : "202308001",
-                    date : today[0],
-                    day : today[1],
-                    status : 1
-                }),
-                dataType : "json",
-                contentType : "application/json;charset-utf-8",
-                success : function(rslt){
-                    console.log("결과 확인 : "+ rslt);
-                    //workTime.innerHTML= workTimeData;
-                },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status)
-                    console.log("message: " + xhr.responseText)
-                    console.log("error: " + error);
-                }
-            }) */
+            $.ajax({
+                type: 'get',
+                url: `/commute/getAttend/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (commuteVO) {
+                    $.ajax({
+                        type: 'post',
+                        url: `/commute/insertAttend`,
+                        data: commuteVO,
+                        dataType: 'text',
+                        success: function(rslt) {
+                            console.log(rslt);
+                            refreshCommute();
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.status);
+                        }
+                    });
 
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                }
+            });
         })
+
         /* 퇴근 버튼을 눌렀을 때 */
         btnLeave.addEventListener("click", () => {
-            leaveTimeData = formatTime(new Date());
-            const totalWorkTime = calculateTotalWorkTime("09:00", "18:20");
-            leaveTime.innerHTML = leaveTimeData;
-            document.querySelector("#totalWorkTime").innerHTML = totalWorkTime
-
-            /* 버튼을 눌렀을 때 서버로 데이터 전송 */
-            /* $.ajax({
-                type : "post",
-                // url 적어주세요
-                url : "#",
-                data : JSON.stringify({
-                    employee : "202308001",
-                    date : today[0],
-                    day : today[1],
-                    status : 0,
-                    time : totalWorkTime
-                }),
-                dataType : "json",
-                contentType : "application/json;charset-utf-8",
-                success : function(rslt){
-                    console.log("결과 확인 : "+ rslt);
-                    //leaveTime.innerHTML= leaveTimeData;
-
+            $.ajax({
+                type:'put',
+                url: `/commute/updateCommute/\${dclzEmplId}`,
+                dataType: 'text',
+                success: function (rslt) {
+                    refreshCommute();
                 },
-                error: function (xhr, status, error) {
-                    console.log("code: " + xhr.status)
-                    console.log("message: " + xhr.responseText)
-                    console.log("error: " + error);
+                error: function (xhr) {
+                    console.log(xhr.status);
                 }
-            }) */
+            });
+        });
 
-        })
+        // 출근 시간을 Date 객체로 변환하는 함수
+        function parseDate(dateString) {
+            const [year, month, day, hours, minutes] = dateString.split(/[- :]/);
+            return new Date(year, month - 1, day, hours, minutes);
+        }
+
+        function refreshCommute() {
+            $.ajax({
+                type: 'get',
+                url: `/commute/getCommute/\${dclzEmplId}`,
+                dataType: 'json',
+                success: function (rslt) {
+                    if (rslt.dclzAttendTm != null) {
+                        btnWork.setAttribute("disabled", "true");
+                        attendDate = parseDate(rslt.dclzAttendTm);
+                        leaveDate = parseDate(rslt.dclzLvffcTm);
+                        let attendTime = formatTime(attendDate);
+                        let leaveT = formatTime(leaveDate);
+                        workTime.innerText = attendTime;
+                        leaveTime.innerHTML = leaveT;
+                        if (rslt.dclzLvffcTm != "2000-01-01 00:00:00.0") { //출 퇴근 다 찍혀있을 때
+                            leave.setAttribute("disabled", "true");
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    console.log("CODE: ", xhr.status);
+                }
+            });
+        }
+
 
         // 이번달 생일
         $.ajax({

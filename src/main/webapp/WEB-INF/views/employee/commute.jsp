@@ -6,7 +6,6 @@
 <sec:authorize access="isAuthenticated()">  <!-- 없어도 됨 -->
     <sec:authentication property="principal" var="CustomUser" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         table, td, tr, th {
             border: 1px solid #333;
@@ -114,14 +113,12 @@
                 url: `/commute/getAttend/\${dclzEmplId}`,
                 dataType: 'json',
                 success: function (commuteVO) {
-                    console.log(commuteVO);
                     $.ajax({
                         type: 'post',
                         url: `/commute/insertAttend`,
                         data: commuteVO,
                         dataType: 'text',
                         success: function(rslt) {
-                            console.log(rslt);
                             refreshCommute();
                             getWeeklyAttendTime();
                         },
@@ -163,18 +160,19 @@
                     if (rslt.dclzAttendTm != null) {
                         goBtn.setAttribute("disabled", "true");
                         attendDate = parseDate(rslt.dclzAttendTm);
-                        leaveDate = parseDate(rslt.dclzLvffcTm);
-                        dailTime = changeMinuteToTime(rslt.dclzDailWorkTime);
-                        console.log(rslt.dclzDailWorkTime)
                         let attendTime = formatTime(attendDate);
-                        let leaveTime = formatTime(leaveDate);
                         attend.innerText = attendTime;
-                        leave.innerHTML = leaveTime;
-                        todayTime.innerText = dailTime;
+                        updateWorkTime();
                         if (rslt.dclzLvffcTm == "2000-01-01 00:00:00.0") { //출근만 찍혀 있을 때
                             setInterval(updateWorkTime, 10000); //실시간 업데이트
                         } else { //출퇴근 다 찍혀있을 때
+                            leaveDate = parseDate(rslt.dclzLvffcTm);
+                            let leaveTime = formatTime(leaveDate);
+                            leave.innerHTML = leaveTime;
                             leaveBtn.setAttribute("disabled", "true");
+                            dailTime = changeMinuteToTime(rslt.dclzDailWorkTime);
+                            console.log(dailTime)
+                            todayTime.innerText = dailTime;
                         }
                     }
                 },
@@ -222,7 +220,6 @@
                 url:`/commute/getMaxWeeklyWorkTime/\${dclzEmplId}`,
                 dataType: 'text',
                 success: function (rslt) {
-                    console.log(rslt)
                     weeklyTime = parseInt(rslt);
                     cWeeklyTime = changeMinuteToTime(weeklyTime);
                     weeklyTotal.innerText = cWeeklyTime;
@@ -394,7 +391,6 @@
                 let width = 0;
                 let id = setInterval(frame, 30);
                 let wb = weeklybar / (52 * 60) * 100;
-                console.log(wb);
                 function frame() {
                     if (width >= wb) {
                         clearInterval(id);
@@ -408,33 +404,5 @@
             }
         }
 
-
-        function getTest() {
-            $.ajax({
-                type: 'get',
-                url: `/commute/getTest/\${dclzEmplId}`,
-                dataType: 'json',
-                success: function (commuteVO) {
-                    console.log(commuteVO);
-                    $.ajax({
-                        type: 'post',
-                        url: `/commute/insertAttend`,
-                        data: commuteVO,
-                        dataType: 'text',
-                        success: function(rslt) {
-                            console.log(rslt);
-                            refreshCommute();
-                            getWeeklyAttendTime();
-                        },
-                        error: function (xhr) {
-                            console.log(rslt);
-                        }
-                    });
-                },
-                error: function (xhr) {
-                    console.log(xhr.status);
-                }
-            });
-        }
     </script>
 </sec:authorize>
