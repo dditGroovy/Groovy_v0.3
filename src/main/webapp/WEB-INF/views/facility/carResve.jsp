@@ -22,21 +22,36 @@
 <hr/>
 <h2 onclick="reserveVehicle()">예약하기</h2>
 <div id="reserve">
-    <form action="">
+    <form action="" method="post">
         <!-- 차량 클릭시 차 번호가 name값으로 들어옴 -->
         <input type="hidden" name="vhcleNo" id="vhcleNo"/>
         <p id="today"></p>
         <p id="time"></p>
-        <span>오전</span>
-        <button type="button" class="timeButton">9:00</button>
-        <button type="button" class="timeButton">11:00</button>
+        <p>오전</p>
+        <p>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="9:00"> 9:00
+            </label>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="11:00"> 11:00
+            </label>
+        </p>
 
-        <span>오후</span>
-        <button type="button" class="timeButton">13:00</button>
-        <button type="button" class="timeButton">15:00</button>
-        <button type="button" class="timeButton">17:00</button>
-        <button type="button" class="timeButton">19:00</button>
-
+        <p>오후</p>
+        <p>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="13:00"> 13:00
+            </label>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="15:00"> 15:00
+            </label>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="17:00"> 17:00
+            </label>
+            <label>
+                <input type="radio" name="time" class="timeRadio" value="19:00"> 19:00
+            </label>
+        </p>
         <%--    <h3>요청사항</h3>--%>
         <%--    <input type="text" name="" value="" placeholder="비품 등 요청 사항을 적어주세요 :)"/>--%>
 
@@ -77,9 +92,9 @@
         xhr.setRequestHeader("ContentType", "application/json;charset=utf-8");
         xhr.onreadystatechange = function () {
             if (xhr.status == 200 && xhr.readyState == 4) {
-                const timeButtonList = document.querySelectorAll(".timeButton");
-                for (let j = 0; j < timeButtonList.length; j++) {
-                    timeButtonList[j].removeAttribute("disabled");
+                const timeRadioList = document.querySelectorAll(".timeRadio");
+                for (let j = 0; j < timeRadioList.length; j++) {
+                    timeRadioList[j].removeAttribute("disabled");
                 }
                 let result = JSON.parse(xhr.responseText); // 어차피 예약된 애들만 옴
                 for (let i = 0; i < result.length; i++) {
@@ -93,11 +108,11 @@
                     const now = `\${nowYear}/\${month}/\${day}`;
 
                     let reservedTime = reservedDate.getHours();
-                    for (let j = 0; j < timeButtonList.length; j++) {
-                        let timeButtonValue = timeButtonList[j].textContent;
-                        timeButtonValue = timeButtonValue.substring(0, timeButtonValue.indexOf(":"));
-                        if (reserved == now && reservedTime == timeButtonValue) {
-                            timeButtonList[j].setAttribute("disabled", "disabled");
+                    for (let j = 0; j < timeRadioList.length; j++) {
+                        let timeRadioValue = timeRadioList[j].value;
+                        timeRadioValue = timeRadioValue.substring(0, timeRadioValue.indexOf(":"));
+                        if (reserved == now && reservedTime == timeRadioValue) {
+                            timeRadioList[j].setAttribute("disabled", "disabled");
                         }
                     }
                 }

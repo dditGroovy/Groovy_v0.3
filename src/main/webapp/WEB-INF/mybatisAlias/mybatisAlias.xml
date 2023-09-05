@@ -10,7 +10,7 @@
         <typeAlias type="kr.co.groovy.vo.EmployeeAuthVO" alias="employeeAuthVO" />
         <typeAlias type="kr.co.groovy.vo.DietVO" alias="dietVO" />
         <typeAlias type="kr.co.groovy.vo.NoticeVO" alias="noticeVO" />
-        <typeAlias type="kr.co.groovy.vo.VehicleVO" alias="VehicleVO" />
+        <typeAlias type="kr.co.groovy.vo.VehicleVO" alias="vehicleVO" />
         <typeAlias type="kr.co.groovy.vo.NotificationVO" alias="notificationVO" />
         <typeAlias type="kr.co.groovy.vo.ChatRoomVO" alias="chatRoomVO" />
         <typeAlias type="kr.co.groovy.vo.ChatMemberVO" alias="chatMemberVO" />
