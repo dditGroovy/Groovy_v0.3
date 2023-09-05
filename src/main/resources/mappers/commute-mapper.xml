@@ -87,7 +87,7 @@
                               AND DCLZ_WORK_DE = TO_DATE(TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'), 'YYYY-MM-DD')),0)
                    END                                   as DCLZ_WIK_WORK_TIME,
                'LABOR_STTUS015'                          as COMMON_CODE_LABOR_STTUS
-        FROM DUAL;
+        FROM DUAL
     </select>
 
     <insert id="insertAttend" parameterType="commuteVO">
