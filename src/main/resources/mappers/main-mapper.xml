@@ -10,6 +10,6 @@
            DIET_DISH3,
            DIET_DESSERT
     FROM DIET
-    WHERE DIET_DATE = #{today}
+    WHERE DIET_DATE = TO_DATE(#{today}, 'yyyy-MM-dd')
 </select>
 </mapper>
