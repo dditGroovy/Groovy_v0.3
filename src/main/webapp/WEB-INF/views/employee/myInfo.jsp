@@ -92,7 +92,7 @@
     <div id="emplSignFilePreview"></div>
     <!-- 미리보기 -->
     <img id="userSignProfile"
-         src="${pageContext.request.contextPath}/images/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
+         src="${pageContext.request.contextPath}/uploads/sign/${CustomUser.employeeVO.signPhotoFileStreNm}"
          alt="signImage"/>
     <p>서명</p>
     <label for="emplSignFile">등록</label> <!-- 등록 버튼 -->
