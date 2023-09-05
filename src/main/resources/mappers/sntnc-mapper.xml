@@ -7,13 +7,31 @@
                           SNTNC_CN,
                           SNTNC_WRITNG_DATE,
                           COMMON_CODE_SNTNC_CTGRY)
-        VALUES ('SNTNC-'||SNTNC_SEQ.nextval||'-'||TO_CHAR(sysdate,'yyyyMMdd'),
+        VALUES (#{sntncEtprCode},
                 #{sntncWritingEmplId},
                 #{sntncCn},
-                TO_CHAR(sysdate, 'yyyyMMdd'),
+                sysdate,
                 'SNTNC010')
     </insert>
-    <insert id="uploadPostFile"></insert>
+
+    <select id="getSeq" resultType="int">
+        SELECT sntnc_seq.nextval from dual
+    </select>
+
+    <insert id="uploadPostFile" parameterType="map">
+        INSERT INTO UPLOAD_FILE(UPLOAD_FILE_SN,
+                                UPLOAD_FILE_ETPR_CODE,
+                                UPLOAD_FILE_ORGINL_NM,
+                                UPLOAD_FILE_STRE_NM,
+                                UPLOAD_FILE_SIZE,
+                                UPLOAD_FILE_RGSDE)
+        VALUES (UPLOAD_FILE_SEQ.nextval,
+                #{notiEtprCode},
+                #{originalFileName},
+                #{newFileName},
+                #{fileSize},
+                sysdate)
+    </insert>
 
 
 </mapper>

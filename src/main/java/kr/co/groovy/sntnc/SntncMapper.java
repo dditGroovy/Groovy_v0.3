@@ -9,5 +9,6 @@ import java.util.Map;
 public interface SntncMapper {
     void inputPost(SntncVO vo);
 
+    int getSeq();
     void uploadPostFile(Map<String, Object> map);
 }
