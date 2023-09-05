@@ -4,7 +4,7 @@
 <div id="sideBar" class="manageSideBar">
     <header id="header">
         <div id="profile">
-            <img src="/uploads/${CustomUser.employeeVO.proflPhotoFileStreNm}" alt="profileImage"/>
+            <img src="/uploads/profile/${CustomUser.employeeVO.proflPhotoFileStreNm}" alt="profileImage"/>
         </div>
         <div class="user">
             <div class="user-info">
