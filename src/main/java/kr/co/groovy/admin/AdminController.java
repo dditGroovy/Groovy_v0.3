@@ -21,8 +21,8 @@ public class AdminController {
     AdminService service;
 
     final
-    CommonService commonService;   
-
+    CommonService commonService;
+      
     public AdminController(AdminService service, CommonService commonService) {
         this.service = service;
         this.commonService = commonService;
