@@ -128,17 +128,13 @@ public class EmployeeController {
     @PostMapping("/modifyPassword")
     @ResponseBody
     public void modifyPassword(String emplId, String emplPassword) {
-        log.info(emplId);
-        log.info(emplPassword);
         service.modifyPassword(emplId, emplPassword);
     }
 
     @PostMapping("/modifySign")
     @ResponseBody
-    public void modifySign(String emplId, MultipartFile signPhotoFile) {
-        log.info(emplId);
-        log.info(signPhotoFile + "");
-        service.modifySign(emplId, signPhotoFile);
+    public String modifySign(String emplId, MultipartFile signPhotoFile) {
+        return service.modifySign(emplId, signPhotoFile);
     }
 
     @PostMapping("/modifyEmp")

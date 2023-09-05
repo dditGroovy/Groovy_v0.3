@@ -121,7 +121,7 @@ public class EmployeeService {
         mapper.modifyPassword(emplId, encodePw);
     }
 
-    public void modifySign(String emplId, MultipartFile signPhotoFile) {
+    public String modifySign(String emplId, MultipartFile signPhotoFile) {
         try {
             String path = uploadPath + "/sign";
             File uploadDir = new File(path);
@@ -148,8 +148,10 @@ public class EmployeeService {
 
             mapper.modifySign(emplId, newFileName, originalFileName);
             log.info("서명 변경 성공");
+            return newFileName;
         } catch (Exception e) {
             log.info("서명 변경 실패");
+            return "error";
         }
     }
 
