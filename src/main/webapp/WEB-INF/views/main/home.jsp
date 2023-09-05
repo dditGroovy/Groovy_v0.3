@@ -117,6 +117,7 @@
     <input type="file" name="defaultFile">
     <button type="submit">저장</button>
 </form>
+    <img src="/uploads/test/test.png"/>
 </sec:authorize>
 <script>
     $(document).ready(function () {
