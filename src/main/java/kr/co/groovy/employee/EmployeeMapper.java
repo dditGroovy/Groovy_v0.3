@@ -1,5 +1,6 @@
 package kr.co.groovy.employee;
 
+import kr.co.groovy.vo.ConnectionLogVO;
 import kr.co.groovy.vo.EmployeeVO;
 import kr.co.groovy.vo.NotificationVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,5 +38,7 @@ public interface EmployeeMapper {
     void modifyEmp(EmployeeVO vo);
 
     void modifyNoticeAt( Map<String, Object> map);
+
+    void inputConectLog(ConnectionLogVO vo);
 }
 

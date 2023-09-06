@@ -177,5 +177,9 @@ public class EmployeeService {
         employeeVO.setNotificationVO(vo);
         mapper.modifyNoticeAt(map);
     }
+
+//    public void inputConectLog(String emplId){
+//        mapper.inputConectLog(emplId);
+//    }
 }
 
