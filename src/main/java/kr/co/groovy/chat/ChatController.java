@@ -30,17 +30,23 @@ public class ChatController {
     @GetMapping("")
     public String chat(Model model, Principal principal) {
         String emplId = principal.getName();
-        List<EmployeeVO> empList = employeeService.loadEmpList();
-        List<ChatRoomVO> chatRoomList = chatService.loadChatRooms(emplId);
-        model.addAttribute("empList", empList);
-        model.addAttribute("chatRoomList", chatRoomList);
-        log.info("{}", chatRoomList);
+        List<EmployeeVO> empListForChat = chatService.loadEmpListForChat(emplId);
+        model.addAttribute("empListForChat", empListForChat);
         return "chat/chat";
+    }
+
+    @GetMapping("/loadRooms")
+    @ResponseBody
+    public List<ChatRoomVO> loadRooms(Principal principal) {
+        String emplId = principal.getName();
+        List<ChatRoomVO> rooms = chatService.loadChatRooms(emplId);
+        return rooms;
     }
 
     @PostMapping("/createRoom")
     @ResponseBody
     public void createRoom(@RequestBody List<EmployeeVO> roomMemList, Principal principal) {
+        log.info("{}", roomMemList);
 
         String hostEmplId = principal.getName();
         EmployeeVO hostEmpl = employeeService.loadEmp(hostEmplId);

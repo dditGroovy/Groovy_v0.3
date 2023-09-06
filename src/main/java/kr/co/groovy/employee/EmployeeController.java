@@ -109,6 +109,11 @@ public class EmployeeController {
         return "employee/commute";
     }
 
+    @GetMapping("/task")
+    public String task() {
+        return "employee/task";
+    }
+
     @GetMapping("/teamCommunity")
     public String teamCommunity() {
         return "employee/teamCommunity";

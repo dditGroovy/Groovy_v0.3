@@ -11,7 +11,7 @@
                 <span id="departName" class="font-24 font-md">인사부</span>
             </div>
             <div class="btn-wrap">
-                <button id="logout" class="font-11 btn-free-white color-font-md">로그아웃<i class="ic-logout icon"></i></button>
+                <button id="logout" class="font-11 btn-free-white color-font-md">로그아웃<i class="icon i-signOut"></i></button>
             </div>
         </div>
     </header>
@@ -20,11 +20,11 @@
             <ul class="depth1 active">
                 <li class="department nav-list"><a href="#" class="active">인사팀  <i class="icon i-arr-bt"></i></a></li>
                 <ul>
-                    <li class="nav-list"><a href="#"><i class="icon icon1"></i>결재 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon2"></i>사원 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon3"></i>연차 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon4"></i>근태 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon5"></i>기본 급여 및 시간외 수당 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-sanction"></i >결재 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-emp"></i >사원 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-todo"></i >연차 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-job"></i >근태 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-money"></i >기본 급여 및 시간외 수당 관리</a></li>
                 </ul>
             </ul>
         </div>
@@ -32,12 +32,12 @@
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">총무팀 <i class="icon i-arr-bt"></i></a></li>
                 <ul>
-                    <li class="nav-list"><a href="#" ><i class="icon icon6"></i>결재 관리</a></li>
-                    <li class="nav-list"><a href="${pageContext.request.contextPath}/admin/manageNotice"><i class="icon icon7"></i>공지사항 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon8"></i>회사 일정 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon9"></i>동호회 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon10"></i>시설 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon11"></i>주차차량 관리</a></li>
+                    <li class="nav-list"><a href="#" ><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="nav-list"><a href="${pageContext.request.contextPath}/admin/manageNotice"><i class="icon i-notice"></i>공지사항 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-calendar"></i>회사 일정 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-share"></i>동호회 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-building"></i>시설 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-parking"></i>주차차량 관리</a></li>
                 </ul>
             </ul>
         </div>
@@ -45,9 +45,9 @@
             <ul class="depth1">
                 <li class="department nav-list"><a href="#">회계팀  <i class="icon i-arr-bt"></i></a></li>
                 <ul>
-                    <li class="nav-list"><a href="#"><i class="icon icon12"></i>결재 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon13"></i>회사 카드 관리</a></li>
-                    <li class="nav-list"><a href="#"><i class="icon icon14"></i>급여 명세서 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-sanction"></i>결재 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-card"></i>회사 카드 관리</a></li>
+                    <li class="nav-list"><a href="#"><i class="icon i-todo"></i>급여 명세서 관리</a></li>
                 </ul>
             </ul>
         </div>

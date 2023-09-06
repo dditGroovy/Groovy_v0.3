@@ -16,12 +16,12 @@
       </div>
       <div class="user-service">
         <ul class="font-11 font-reg">
-          <li><i class="ic-mail icon"></i><span>메일</span><a href="#" id="linkMail">8</a></li>
+          <li><i class="icon i-mail"></i><span>메일</span><a href="#" id="linkMail">8</a></li>
           <li><a href="${pageContext.request.contextPath}/employee/myInfo" id="settingMyinfo">내 정보 관리</a></li>
         </ul>
       </div>
       <div class="btn-wrap">
-        <a href="${pageContext.request.contextPath}/signOut" class="font-11 btn-free-white color-font-md">로그아웃<i class="ic-logout icon"></i></a>
+        <button id = "logout" class="font-11 btn-free-white"><a href="${pageContext.request.contextPath}/signOut" style="color: black;" >로그아웃<i class="icon i-signOut"></i></a></button>
         <button id="videoConference" class="font-11 btn-free-white"><a href="${pageContext.request.contextPath}/employee/manageEmp"><span class="btn-detail">사원관리</span></a></button>
         <button id="reservation" class="font-11 btn-free-white"><a href="${pageContext.request.contextPath}/facility/vehicle"><span class="btn-detail">예약</span></a></button>
       </div>
@@ -31,26 +31,26 @@
     <div class="personal">
       <span class="nav-cate">개인</span>
       <ul>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/main/home" class="active"><i class="icon i-board"></i>홈</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/commute"><i class="icon icon2"></i>출 · 퇴근</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/myVacation"><i class="icon icon3"></i>휴가 · 급여</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/task"><i class="icon icon4"></i>내 할 일</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/sanction/sanctionBox"><i class="icon icon5"></i>결재함</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/main/home" class="active"><i class="icon i-home"></i>홈</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/commute"><i class="icon i-job"></i>출 · 퇴근</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/myVacation"><i class="icon i-vacation"></i>휴가 · 급여</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/task"><i class="icon i-todo"></i>내 할 일</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/sanction/sanctionBox"><i class="icon i-sanction"></i>결재함</a></li>
       </ul>
-    </div>\
+    </div>
     <div class="team">
       <span class="nav-cate">팀</span>
       <ul>
-        <li class="nav-list"><a href="#"><i class="icon icon6"></i>캘린더</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/teamCommunity"><i class="icon icon7"></i>팀 커뮤니티</a></li>
+        <li class="nav-list"><a href="#"><i class="icon i-calendar"></i>캘린더</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/employee/teamCommunity"><i class="icon i-community"></i>팀 커뮤니티</a></li>
       </ul>
     </div>
     <div class="company">
       <span class="nav-cate">회사</span>
       <ul>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/loadNoticeList"><i class="icon icon8"></i>공지사항 (완료)</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/club"><i class="icon icon9"></i>동호회</a></li>
-        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/loadOrgChart"><i class="icon icon10"></i>조직도 (완료)</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/loadNoticeList"><i class="icon i-notice"></i>공지사항 (완료)</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/club"><i class="icon i-share"></i>동호회</a></li>
+        <li class="nav-list"><a href="${pageContext.request.contextPath}/common/loadOrgChart"><i class="icon i-org"></i>조직도 (완료)</a></li>
       </ul>
     </div>
   </nav>
