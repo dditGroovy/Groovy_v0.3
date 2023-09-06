@@ -1,16 +1,18 @@
 package kr.co.groovy.main;
 
 import kr.co.groovy.vo.DietVO;
+import kr.co.groovy.vo.NoticeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 
 @Slf4j
-@RequestMapping("/main")
 @Controller
+@RequestMapping("/main")
 public class MainController {
     final
     MainService service;
@@ -21,19 +23,20 @@ public class MainController {
         this.service = service;
         this.uploadPath = uploadPath;
     }
-    @ResponseBody
+
     @GetMapping(value = "/{today}")
+    @ResponseBody
     public DietVO loadMenu(@PathVariable String today) {
         return service.loadDiet(today);
     }
 
     @GetMapping("/home")
-    public String comebackHome(){
+    public String comebackHome() {
         return "main/home";
     }
 
     @PostMapping("/uploadFile")
-    public void uploadFile(MultipartFile defaultFile){
+    public void uploadFile(MultipartFile defaultFile) {
         try {
             String path = uploadPath + "/test";
             File uploadDir = new File(path);
@@ -53,5 +56,11 @@ public class MainController {
         } catch (Exception e) {
             log.info("사진 저장 실패");
         }
+    }
+
+    @GetMapping("loadNotice")
+    @ResponseBody
+    public List<NoticeVO> loadNotice() {
+        return service.loadNotice();
     }
 }

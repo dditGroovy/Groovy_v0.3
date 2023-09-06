@@ -3,126 +3,134 @@
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
-<h2>안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
-오늘 업무도 힘차게 파이팅! 테스트2</h2>
+    <h2>안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
+        오늘 업무도 힘차게 파이팅! 테스트2</h2>
     <br>
-<form>
-    <button type="button" id="work" data-io="0">출근하기</button>
-    <p id="workTime">00:00</p>
+    <form>
+        <button type="button" id="work" data-io="0">출근하기</button>
+        <p id="workTime">00:00</p>
+        <br/>
+        <button type="button" id="leave" data-io="1">퇴근하기</button>
+        <p id="leaveTime">00:00</p>
+        <!-- 총 근무 시간 : <span id="totalWorkTime"></span> -->
+    </form>
+
+    <hr/>
+
+    <h3>해야 할 일</h3>
+    <table border="1" style="width: 50%;">
+        <thead>
+        <tr>
+            <th>업무결과</th>
+            <th>업무제목</th>
+            <th>마감날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>진행전</td>
+            <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
+            <td>2023-07-30</td>
+        </tr>
+        <tr>
+            <td>진행중</td>
+            <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
+            <td>2023-07-30</td>
+        </tr>
+        <tr>
+            <td>완료</td>
+            <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
+            <td>2023-07-30</td>
+        </tr>
+        </tbody>
+    </table>
     <br/>
-    <button type="button" id="leave" data-io="1">퇴근하기</button>
-    <p id="leaveTime">00:00</p>
-    <!-- 총 근무 시간 : <span id="totalWorkTime"></span> -->
-</form>
+    <hr/>
 
-<hr/>
+    <h3>공지사항</h3>
+    <div id="mainNotice"></div>
+    <br/>
+    <hr/>
 
-<h3>해야 할 일</h3>
-<table border="1" style="width: 50%;">
-    <thead>
-    <tr>
-        <th>업무결과</th>
-        <th>업무제목</th>
-        <th>마감날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>진행전</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    <tr>
-        <td>진행중</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    <tr>
-        <td>완료</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    </tbody>
-</table>
-<br/>
-<hr/>
+    <h3>결재함</h3>
+    <table border="1" style="width: 50%;">
+        <thead>
+        <tr>
+            <th>카테고리</th>
+            <th>제목</th>
+            <th>날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>휴가</td>
+            <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
+            <td>2023-07-30</td>
+        </tr>
+        <tr>
+            <td>일정</td>
+            <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
+            <td>2023-07-30</td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <hr/>
+    <h3>오늘의 식단</h3>
+    <div id="dietWrap">
 
-<h3>공지사항</h3>
-<table border="1" style="width: 50%;">
-    <thead>
-    <tr>
-        <th>카테고리</th>
-        <th>제목</th>
-        <th>날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>휴가</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    <tr>
-        <td>일정</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    </tbody>
-</table>
-<br/>
-<hr/>
+    </div>
 
-<h3>결재함</h3>
-<table border="1" style="width: 50%;">
-    <thead>
-    <tr>
-        <th>카테고리</th>
-        <th>제목</th>
-        <th>날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>휴가</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    <tr>
-        <td>일정</td>
-        <td>마인드풀니스:현대인의 스트레스 해소 비법</td>
-        <td>2023-07-30</td>
-    </tr>
-    </tbody>
-</table>
-<br/>
-<hr/>
-<h3>오늘의 식단</h3>
-<div id="dietWrap">
+    <br/>
+    <hr/>
+    <h3>이번달 생일</h3>
+    <div id="birthdayWrap">
 
-</div>
+    </div>
+    <br/>
+    <hr/>
+    <h3>날씨</h3>
+    <div id="weather"></div>
+    <img id="weatherImg" src="">
 
-<br/>
-<hr/>
-<h3>이번달 생일</h3>
-<div id="birthdayWrap">
-
-</div>
-<br/>
-<hr/>
-<h3>날씨</h3>
-<div id="weather"></div>
-<img id="weatherImg" src="">
-
-<form action="/main/uploadFile" method="post" enctype="multipart/form-data">
-    <input type="file" name="defaultFile">
-    <button type="submit">저장</button>
-</form>
+    <form action="/main/uploadFile" method="post" enctype="multipart/form-data">
+        <input type="file" name="defaultFile">
+        <button type="submit">저장</button>
+    </form>
     <img src="/uploads/test/test.png"/>
+
+
 </sec:authorize>
 <script>
     let dclzEmplId = `${CustomUser.employeeVO.emplId}`;
 
     $(document).ready(function () {
+
+        // 공지사항 불러오기 (최신 2개)
+        $.ajax({
+            url: "/main/loadNotice",
+            type: "get",
+            success: function (data) {
+                code = `<table border="1">`;
+
+                $.each(data, function (index, item) {
+                    code += `<tr>
+                             <td>\${item.notiCtgryIconFileStreNm}</td>
+                             <td>\${item.notiTitle}</td>
+                             <td>\${item.notiDate}</td>
+                             </tr>`
+                })
+
+                code += `</table>`
+
+                $("#mainNotice").html(code);
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status)
+            }
+        })
+
+
         // -----------------------------------------------------------날짜 포맷팅
         let before = new Date();
 
@@ -181,7 +189,7 @@
                         url: `/commute/insertAttend`,
                         data: commuteVO,
                         dataType: 'text',
-                        success: function(rslt) {
+                        success: function (rslt) {
                             console.log(rslt);
                             refreshCommute();
                         },
@@ -200,7 +208,7 @@
         /* 퇴근 버튼을 눌렀을 때 */
         btnLeave.addEventListener("click", () => {
             $.ajax({
-                type:'put',
+                type: 'put',
                 url: `/commute/updateCommute/\${dclzEmplId}`,
                 dataType: 'text',
                 success: function (rslt) {

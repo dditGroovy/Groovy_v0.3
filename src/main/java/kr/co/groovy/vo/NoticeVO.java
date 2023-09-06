@@ -1,5 +1,6 @@
 package kr.co.groovy.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,13 +14,9 @@ public class NoticeVO {
     private String notiEtprCode;
     private String notiTitle;
     private String notiContent;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date notiDate;
     private int notiRdcnt;
     private String notiCtgryIconFileStreNm;
     private String commonCodeNotiKind;
-    // 중요(별) 행사(깃발):생일 공지(확성기) 부고:봉투
-    // 중요 순으로 셀렉트
-    //
-
-
 }
