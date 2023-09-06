@@ -10,16 +10,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fb4c910-4665-43b4-86e0-262fa8571d15" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vehicle/VehicleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/vehicle-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/vehicle-mapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/facility/carResve.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/facility/carResve.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vacation/VacationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vacation/VacationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vacation/VacationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vo/VacationVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mappers/vacation-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vo/ChatRoomVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/co/groovy/vo/ChatRoomVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/chat-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/chat-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/mybatisAlias/mybatisAlias.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/mybatisAlias/mybatisAlias.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chat/chat.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chat/chat.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/css/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kr/co/groovy/employee/EmployeeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kr/co/groovy/employee/EmployeeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/css/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/kr/co/groovy/employee/EmployeeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/kr/co/groovy/employee/EmployeeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/mappers/admin-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/mappers/admin-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/mappers/employee-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/classes/mappers/employee-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/mybatisAlias/mybatisAlias.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/mybatisAlias/mybatisAlias.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/tiles/floating.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/WEB-INF/views/tiles/floating.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/resources/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/ddit-1.0.0-BUILD-SNAPSHOT/resources/css/common.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,7 +72,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/leehyejin/Project/ddit/Projects/5. Groovy/Groovy_v0.3/pom.xml",
+    "last_opened_file_path": "/Users/soyeonlee/Dev/project/Groovy_v0.3/src/main/resources/mappers",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -57,11 +80,16 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "inlay.hints",
     "spring.configuration.checksum": "fee13acfc1999c133cf877b502ef096a",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/mappers" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Tomcat groovy" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat groovy" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
@@ -170,5 +198,13 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="휴가, 급여 이동" />
+    <option name="LAST_COMMIT_MESSAGE" value="휴가, 급여 이동" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -47,4 +47,6 @@
             NOTI_CTGRY_ICON_FILE_STRE_NM = #{notiCtgryIconFileStreNm}
         WHERE NOTI_ETPR_CODE = #{notiEtprCode}
     </update>
+
 </mapper>
+
