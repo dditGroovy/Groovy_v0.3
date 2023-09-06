@@ -6,6 +6,13 @@
         values (VHCLE_RESVE_SEQ.nextval, #{vhcleResveBeginTime}, #{vhcleResveEndTime}, #{vhcleNo}, #{vhcleResveEmplId},
                 #{commonCodeResveAt})
     </insert>
+    <delete id="deleteReservedByVhcleResveNo" parameterType="int">
+        delete
+        from vhcle_resve
+        where vhcle_resve_no = #{vhcleResveNo}
+    </delete>
+
+
     <select id="getVehicles" resultType="vehicleVO">
         select *
         from VHCLE

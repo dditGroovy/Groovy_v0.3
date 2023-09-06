@@ -99,7 +99,7 @@
     function loadReservation(vhcle) {
         vhcleNo = $(vhcle).find(".no").html();
         let xhr = new XMLHttpRequest();
-        xhr.open("get", `/facility/reservedVehicles/\${vhcleNo}`, true);
+        xhr.open("get", `/facility/vehicle/reservedVehicles/\${vhcleNo}`, true);
         xhr.setRequestHeader("ContentType", "application/json;charset=utf-8");
         xhr.onreadystatechange = function () {
             if (xhr.status == 200 && xhr.readyState == 4) {
@@ -137,13 +137,19 @@
         if (myReserveList.style.display === "none") {
             myReserveList.style.display = "block";
             reserveBox.style.display = "none";
+            loadMyReserveList();
+        }
+    }
 
-            let xhr = new XMLHttpRequest();
-            xhr.open("get", "/facility/myReservedVehicles", true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    let myReservedList = JSON.parse(xhr.responseText);
-                    let tableStr = `<table border=1><tr><td>차번호</td><td>예약시간</td><td>취소</td></tr>`;
+    function loadMyReserveList() {
+        let tableStr = `<table border=1><tr><td>차번호</td><td>예약시간</td><td>취소</td></tr>`;
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/facility/vehicle/myReservedVehicles", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let myReservedList = JSON.parse(xhr.responseText);
+                console.log(myReservedList);
+                if (myReservedList.length > 0) {
                     for (let i = 0; i < myReservedList.length; i++) {
                         let beginHour = new Date(myReservedList[i].vhcleResveBeginTime).getHours().toString() + ":00";
                         let endHour = new Date(myReservedList[i].vhcleResveEndTime).getHours().toString() + ":00";
@@ -153,14 +159,16 @@
                             <tr>
                                 <td>\${myReservedList[i].vhcleNo}</td>
                                 <td>\${beginHour} - \${endHour}</td>
-                                <td><button onclick="cancelReservation(\${myReservedList[i].vhcleNo})">취소</button></td>
+                                <td><button onclick="cancelReservation('\${myReservedList[i].vhcleResveNo}')">취소</button></td>
                              </tr>`;
                         document.querySelector("#myReserveList").innerHTML = tableStr;
                     }
+                } else {
+                    document.querySelector("#myReserveList").innerHTML = tableStr;
                 }
             }
-            xhr.send();
         }
+        xhr.send();
     }
 
     function goReservation() {
@@ -184,7 +192,7 @@
         }
 
         $.ajax({
-            url: "/facility/inputReservation",
+            url: "/facility/vehicle/inputReservation",
             type: "post",
             data: JSON.stringify(vehicleVO),
             contentType: "application/json;charset=utf-8",
@@ -194,31 +202,42 @@
                 if (result) {
                     alert("예약이 완료되었습니다. 총무팀에서 차키를 받을 수 있습니다.");
                 }
-
             },
             error: function (xhr, status, error) {
                 console.log("code: " + xhr.status);
                 console.log("message: " + xhr.responseText);
                 console.log("error: " + xhr.error);
                 if (xhr.responseText === "vhcleNo is null") {
-                    alert("차종을 선택해주세요.");
+                    alert("차량을 선택해주세요.");
                 } else if (xhr.responseText === "beginTime is null") {
                     alert("대여시간을 선택해주세요.");
                 } else if (xhr.responseText === "endTime is null") {
                     alert("반납시간을 선택해주세요.");
                 }
 
-                if (xhr.responseText == "same time") {
+                if (xhr.responseText === "same time") {
                     alert("대여시간과 반납시간을 다르게 선택해주세요.");
+                } else if (xhr.responseText === "end early than begin") {
+                    alert("반납시간이 대여시간보다 이르게 선택되었습니다. 다시 시도해주세요.");
                 }
             }
         });
     }
 
-    function cancelReservation(vhcleNo) {
-        console.log(vhcleNo);
-
+    function cancelReservation(vhcleResveNo) {
+        $.ajax({
+            url: `/facility/vehicle/\${vhcleResveNo}`,
+            type: "delete",
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                loadMyReserveList();
+            },
+            error: function (xhr, status, error) {
+                console.log("code: " + xhr.status);
+                console.log("message: " + xhr.responseText);
+                console.log("error: " + xhr.error);
+            }
+        });
     }
-
-
 </script>

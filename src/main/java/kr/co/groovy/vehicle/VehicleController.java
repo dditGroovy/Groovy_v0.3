@@ -9,7 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -26,24 +28,23 @@ public class VehicleController {
         return mav;
     }
 
-    @GetMapping("/reservedVehicles/{vhcleNo}")
+    @GetMapping("/vehicle/reservedVehicles/{vhcleNo}")
     @ResponseBody
     public List<VehicleVO> getReservedVehicle(@PathVariable String vhcleNo) {
         List<VehicleVO> reservedVehicle = service.getReservedVehicle(vhcleNo);
         return reservedVehicle;
     }
 
-    @GetMapping("/myReservedVehicles")
+    @GetMapping("/vehicle/myReservedVehicles")
     @ResponseBody
     public List<VehicleVO> getReservedVehicleByEmplId(Principal vhcleResveEmplId) {
         List<VehicleVO> reservedVehicleByEmplId = service.getReservedVehicleByEmplId(vhcleResveEmplId.getName());
         return reservedVehicleByEmplId;
     }
 
-    @PostMapping("/inputReservation")
+    @PostMapping("/vehicle/inputReservation")
     @ResponseBody
     public String inputReservation(Principal vhcleResveEmplId, @RequestBody VehicleVO vehicleVO) {
-        log.info("vehicleVO" + vehicleVO);
         if (vehicleVO.getVhcleNo() == null || vehicleVO.getVhcleNo() == "") {
             return "vhcleNo is null";
         } else if (vehicleVO.getVhcleResveBeginTime() == null) {
@@ -54,11 +55,20 @@ public class VehicleController {
 
         if (vehicleVO.getVhcleResveBeginTime().equals(vehicleVO.getVhcleResveEndTime())) {
             return "same time";
+        } else if (vehicleVO.getVhcleResveBeginTime().after(vehicleVO.getVhcleResveEndTime())) {
+            return "end early than begin";
         } else {
             vehicleVO.setVhcleResveEmplId(vhcleResveEmplId.getName());
             int count = service.inputReservation(vehicleVO);
             return String.valueOf(count);
         }
+    }
+
+    @DeleteMapping("/vehicle/{vhcleResveNo}")
+    @ResponseBody
+    public String deleteReservedByVhcleResveNo(@PathVariable int vhcleResveNo) {
+        int count = service.deleteReservedByVhcleResveNo(vhcleResveNo);
+        return String.valueOf(count);
     }
 
 }

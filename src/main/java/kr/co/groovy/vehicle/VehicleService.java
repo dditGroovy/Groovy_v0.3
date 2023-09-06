@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,17 +24,18 @@ public class VehicleService {
     }
 
     public List<VehicleVO> getReservedVehicle(String vhcleNo) {
-        List<VehicleVO> reservedVehicle = mapper.getReservedVehicleByVhcleNo(vhcleNo);
-        return reservedVehicle;
+        return mapper.getReservedVehicleByVhcleNo(vhcleNo);
     }
 
     public List<VehicleVO> getReservedVehicleByEmplId(String vhcleResveEmplId) {
-        List<VehicleVO> reservedVehicleByEmplId = mapper.getReservedVehicleByEmplId(vhcleResveEmplId);
-        return reservedVehicleByEmplId;
+        return mapper.getReservedVehicleByEmplId(vhcleResveEmplId);
     }
 
     public int inputReservation(VehicleVO vehicleVO) {
-        int count = mapper.inputReservation(vehicleVO);
-        return count;
+        return mapper.inputReservation(vehicleVO);
+    }
+
+    public int deleteReservedByVhcleResveNo(int vhcleResveNo) {
+        return mapper.deleteReservedByVhcleResveNo(vhcleResveNo);
     }
 }
