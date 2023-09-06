@@ -3,8 +3,8 @@
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser"/>
-    <h2>안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
-        오늘 업무도 힘차게 파이팅! 테스트2</h2>
+    <h2 class="font-24">안녕하세요, ${CustomUser.employeeVO.emplNm}님 <br>
+        오늘 업무도 힘차게 파이팅! &#x1F64C;</h2>
     <br>
     <form>
         <button type="button" id="work" data-io="0">출근하기</button>
@@ -92,7 +92,6 @@
     <h3>날씨</h3>
     <div id="weather"></div>
     <img id="weatherImg" src="">
-
     <form action="/main/uploadFile" method="post" enctype="multipart/form-data">
         <input type="file" name="defaultFile">
         <button type="submit">저장</button>
