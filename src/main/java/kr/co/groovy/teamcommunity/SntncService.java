@@ -1,4 +1,4 @@
-package kr.co.groovy.sntnc;
+package kr.co.groovy.teamcommunity;
 
 import kr.co.groovy.vo.SntncVO;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
