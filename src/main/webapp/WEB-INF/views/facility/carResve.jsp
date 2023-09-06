@@ -116,8 +116,6 @@
                     let reservedTime = reservedDate.getHours();
 
                     const reservedStr = `\${reservedYear}/\${reservedMonth}/\${reservedDay}`;
-
-
                     for (let j = 0; j < selectBeginTimeList.length; j++) {
                         let selectBeginTime = selectBeginTimeList[j].value;
                         let selectBeginHour = selectBeginTime.substring(0, selectBeginTime.indexOf(":"));
@@ -155,7 +153,7 @@
                             <tr>
                                 <td>\${myReservedList[i].vhcleNo}</td>
                                 <td>\${beginHour} - \${endHour}</td>
-                                <td><button onclick="cancelReservation()">취소</button></td>
+                                <td><button onclick="cancelReservation(\${myReservedList[i].vhcleNo})">취소</button></td>
                              </tr>`;
                         document.querySelector("#myReserveList").innerHTML = tableStr;
                     }
@@ -215,7 +213,10 @@
                 }
             }
         });
+    }
 
+    function cancelReservation(vhcleNo) {
+        console.log(vhcleNo);
 
     }
 
