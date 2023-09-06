@@ -1,4 +1,4 @@
-package kr.co.groovy.sntnc;
+package kr.co.groovy.teamcommunity;
 
 import kr.co.groovy.vo.SntncVO;
 import org.apache.ibatis.annotations.Mapper;
