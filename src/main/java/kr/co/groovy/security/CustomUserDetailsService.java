@@ -33,24 +33,24 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (notificationVO != null) {
             employeeVO.setNotificationVO(notificationVO);
         }
-        ConnectionLogVO connectionLogVO = new ConnectionLogVO();
-        try {
-            connectionLogVO.setEmplId(id);
-            ip = InetAddress.getLocalHost();
-            connectionLogVO.setConectLogIp(ip.getHostAddress());
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            byte[] mac = network.getHardwareAddress();
-            String macAddress = "";
-            for (int i = 0; i < mac.length; i++) {
-                macAddress += (String.format("%02x", mac[i]) + ":");
-            }
-            connectionLogVO.setConectLogMacadrs(macAddress);
-        } catch (UnknownHostException | SocketException e) {
-            throw new RuntimeException(e);
-        }
-
-        mapper.inputConectLog(connectionLogVO);
-        log.info(connectionLogVO +"");
+//        ConnectionLogVO connectionLogVO = new ConnectionLogVO();
+//        try {
+//            connectionLogVO.setEmplId(id);
+//            ip = InetAddress.getLocalHost();
+//            connectionLogVO.setConectLogIp(ip.getHostAddress());
+//            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+//            byte[] mac = network.getHardwareAddress();
+//            String macAddress = "";
+//            for (int i = 0; i < mac.length; i++) {
+//                macAddress += (String.format("%02x", mac[i]) + ":");
+//            }
+//            connectionLogVO.setConectLogMacadrs(macAddress);
+//        } catch (UnknownHostException | SocketException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        mapper.inputConectLog(connectionLogVO);
+//        log.info(connectionLogVO +"");
         return employeeVO == null ? null : new CustomUser(employeeVO);
     }
 }
