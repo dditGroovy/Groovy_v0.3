@@ -33,14 +33,6 @@ public class HomeController {
 		return "mail/sendMail";
 	}
 
-	@GetMapping("/sanctn")
-	public String requestSanctn() {
-		return "sanctn/requestSanctn";
-	}
-	@GetMapping("/sanctn/write")
-	public String writeSanctn() {
-		return "sanctn/write";
-	}
 
 
 }

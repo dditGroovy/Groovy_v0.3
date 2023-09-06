@@ -15,7 +15,7 @@
     <hr /><br />
     <h3>결재 목록</h3>
     <ul>
-        <li><a href="#">연차</a></li>
+        <li><a href="${pageContext.request.contextPath}/sanction/write">연차</a></li>
         <li><a href="#">여름 휴가</a></li>
         <li><a href="#">생일</a></li>
         <li><a href="#">결혼 - 신혼여행</a></li>
