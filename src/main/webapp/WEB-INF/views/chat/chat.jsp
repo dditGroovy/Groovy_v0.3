@@ -2,6 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <style>
     div {
         border : 1px solid black;
@@ -42,6 +45,14 @@
     <%--        </div>--%>
     <%--    </c:forEach>--%>
 </div>
+
+<hr>
+
+<h1>채팅창</h1>
+<div id="chatRoom">
+
+</div>
+
 <script>
     // empListForChat 목록을 dept_name 값으로 그룹화
     var groupedEmployees = {};
@@ -152,5 +163,7 @@
         let chttRoomNo = selectedRoom.find("input").val();
         console.log("선택한 채팅방 번호: ", chttRoomNo);
     });
+
+
 
 </script>
