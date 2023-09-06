@@ -29,14 +29,14 @@
     </select>
 
     <select id="getWeeklyAttendTime" parameterType="String" resultType="String">
-        SELECT to_char(DCLZ_ATTEND_TM, 'HH24:MI')
+        SELECT to_char(DCLZ_ATTEND_TM, 'DY HH24:MI')
         FROM DCLZ
         WHERE DCLZ_WORK_DE BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 4
           AND DCLZ_EMPL_ID =  #{dclzEmplId}
     </select>
 
     <select id="getWeeklyLeaveTime" parameterType="String" resultType="String">
-        SELECT to_char(DCLZ_LVFFC_TM, 'HH24:MI')
+        SELECT to_char(DCLZ_LVFFC_TM, 'DY HH24:MI')
         FROM DCLZ
         WHERE DCLZ_WORK_DE BETWEEN TRUNC(SYSDATE, 'IW') AND TRUNC(SYSDATE, 'IW') + 4
           AND DCLZ_EMPL_ID = #{dclzEmplId}

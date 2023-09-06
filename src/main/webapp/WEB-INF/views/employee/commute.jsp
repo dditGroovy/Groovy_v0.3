@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
 
-<sec:authorize access="isAuthenticated()">  <!-- 없어도 됨 -->
+<sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal" var="CustomUser" />
 
     <style>
@@ -171,7 +171,6 @@
                             leave.innerHTML = leaveTime;
                             leaveBtn.setAttribute("disabled", "true");
                             dailTime = changeMinuteToTime(rslt.dclzDailWorkTime);
-                            console.log(dailTime)
                             todayTime.innerText = dailTime;
                         }
                     }
@@ -237,15 +236,7 @@
                 url: `/commute/getWeeklyAttendTime/\${dclzEmplId}`,
                 dataType: 'json',
                 success: function (rslt) {
-                    let code = ``;
-                    for (let i = 0; i < 5; i++) {
-                        if (rslt[i] == undefined || rslt[i] == "00:00") {
-                            code += `<td>-</td>`
-                        } else {
-                            code += `<td>\${rslt[i]}</td>`;
-                        }
-                    }
-                    weeklyAttendTime.innerHTML = code;
+                    weeklyAttendTime.innerHTML = fillTablebyDY(rslt);
                 },
                 error(xhr) {
                     xhr.status;
@@ -259,21 +250,32 @@
                 url: `/commute/getWeeklyLeaveTime/\${dclzEmplId}`,
                 dataType: 'json',
                 success: function (rslt) {
-                    let code = ``;
-                    for (let i = 0; i < 5; i++) {
-                        if (rslt[i] == undefined || rslt[i] == "00:00") {
-                            code += `<td>-</td>`
-                        } else {
-                            code += `<td>\${rslt[i]}</td>`;
-                        }
-                    }
-                    weeklyLeaveTime.innerHTML = code;
+                    weeklyLeaveTime.innerHTML = fillTablebyDY(rslt);
                 },
                 error(xhr) {
                     xhr.status;
                 }
             });
         };
+
+        function fillTablebyDY(rslt) {
+            let code = ``;
+            let dataByDay = {};
+            for (let i = 0; i < rslt.length; i++) {
+                let data = rslt[i].split(" ");
+                let dy = data[0]; //요일
+                let time = data[1]; // 시간 부분
+                dataByDay[dy] = time;
+            }
+            let daysOfWeek = ["월", "화", "수", "목", "금"];
+            // 요일별로 테이블에 추가
+            for (let i = 0; i < daysOfWeek.length; i++) {
+                let day = daysOfWeek[i];
+                let time = dataByDay[day];
+                code += `<td>\${time || "-"}</td>`;
+            }
+            return code;
+        }
 
         function getAllYear () {
             $.ajax({
