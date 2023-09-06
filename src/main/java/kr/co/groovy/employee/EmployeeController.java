@@ -89,21 +89,6 @@ public class EmployeeController {
         return mav;
     }
 
-    @GetMapping("/myVacation")
-    public String myVacation() {
-        return "employee/myVacation";
-    }
-
-    @GetMapping("/vacationRecord")
-    public String vacationRecord() {
-        return "employee/vacationRecord";
-    }
-
-    @GetMapping("/mySalary")
-    public String mySalary() {
-        return "employee/mySalary";
-    }
-
     @GetMapping("/commute")
     public String commute() {
         return "employee/commute";
