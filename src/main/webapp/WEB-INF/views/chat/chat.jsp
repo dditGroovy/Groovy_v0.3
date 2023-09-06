@@ -143,9 +143,9 @@
                 code = "";
                 $.each(result, function (idx, obj) {
                     code += `<button class="rooms">
-                    <img src="/uploads/profile/\${obj.chatRoomThumbnail}" alt="\${obj.chatRoomThumbnail}"/>
+                    <img src="/uploads/profile/\${obj.chttRoomThumbnail}" alt="\${obj.chttRoomThumbnail}"/>
                     <p>\${obj.chttRoomNm}</p>
-                    <p>\${obj.latestChat}</p>
+                    <p>\${obj.latestChttCn}</p>
                     <input type="hidden" value="\${obj.chttRoomNo}">
                     </button>`;
                 })

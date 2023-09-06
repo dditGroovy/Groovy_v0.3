@@ -18,5 +18,7 @@
         <typeAlias type="kr.co.groovy.vo.UploadFileVO" alias="uploadFileVO" />
         <typeAlias type="kr.co.groovy.vo.SntncVO" alias="sntncVO" />
         <typeAlias type="kr.co.groovy.vo.CommuteVO" alias="commuteVO" />
+        <typeAlias type="kr.co.groovy.vo.ConnectionLogVO" alias="connectionLogVO" />
+        <typeAlias type="kr.co.groovy.vo.VacationVO" alias="vacationVO" />
     </typeAliases>
 </configuration>

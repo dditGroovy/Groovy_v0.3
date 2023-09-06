@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.groovy.chat.ChatMapper">
-    <resultMap id="empListForChat" type="employeeVO">
-        <result property="emplId" column="EMPL_ID"/>
-        <result property="emplNm" column="EMPL_NM"/>
-        <result property="commonCodeClsf" column="COMMON_CODE_DEPT"/>
-        <result property="deptNm" column="DEPT_NM"/>
-        <result property="clsfNm" column="CLSF_NM"/>
-        <result property="proflPhotoFileStreNm" column="PROFILE_FILE_NAME"/>
-    </resultMap>
-
-    <resultMap id="chatRoomList" type="chatRoomVO">
-        <result property="chttRoomNo" column="CHTT_ROOM_NO"/>
-        <result property="chttRoomNm" column="CHTT_ROOM_NM"/>
-        <result property="latestChat" column="LATEST_CHTT_CN"/>
-        <result property="latestInputDate" column="LATEST_INPUT_DATE"/>
-        <result property="chatRoomThumbnail" column="CHTT_ROOM_THUMBNAIL"/>
-    </resultMap>
-
 
     <insert id="insertChatRoom" parameterType="map">
         INSERT INTO CHTT_ROOM
@@ -38,7 +21,7 @@
                )
     </insert>
 
-    <select id="loadChatRooms" parameterType="String" resultMap="chatRoomList">
+    <select id="loadChatRooms" parameterType="String" resultType="chatRoomVO">
         SELECT
             cr.CHTT_ROOM_NO,
             cr.CHTT_ROOM_NM,
@@ -77,10 +60,9 @@
         ORDER BY LATEST_INPUT_DATE DESC
     </select>
 
-    <select id="loadEmpListForChat" resultMap="empListForChat">
+    <select id="loadEmpListForChat" resultType="employeeVO">
         SELECT A.EMPL_ID,
                A.EMPL_NM,
-               A.COMMON_CODE_CLSF,
                (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = A.COMMON_CODE_DEPT) AS DEPT_NM,
                (SELECT C.COMMON_NAME FROM COMMON C WHERE C.COMMON_CODE = A.COMMON_CODE_CLSF) AS CLSF_NM,
                UF.UPLOAD_FILE_STRE_NM  AS PROFILE_FILE_NAME
