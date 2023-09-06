@@ -16,7 +16,7 @@
         SELECT NOTI_ETPR_CODE,
                NOTI_TITLE,
                NOTI_CONTENT,
-               TO_CHAR(NOTI_DATE, 'YYYY-MM-DD') AS NOTI_DATE,
+               NOTI_DATE,
                NOTI_RDCNT,
                NOTI_CTGRY_ICON_FILE_STRE_NM,
                COMMON_CODE_NOTI_KIND

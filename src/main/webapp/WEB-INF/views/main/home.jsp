@@ -97,6 +97,7 @@
         <input type="file" name="defaultFile">
         <button type="submit">저장</button>
     </form>
+    <p>파일 업로드 확인용</p>
     <img src="/uploads/test/test.png"/>
 
 
@@ -257,10 +258,10 @@
             url: "/employee/loadBirthday",
             type: "get",
             success: function (data) {
-                code = `<table><tr><th>사원번호</th><th>사원이름</th></tr>`;
-
+                code = `<table>`;
+                // <tr><th>사원번호</th><th>사원이름</th></tr>
                 $.each(data, function (index, item) {
-                    code += `<tr><td>\${item.emplId}</td>
+                    code += `<tr><td><img src="/uploads/profile/\${item.proflPhotoFileStreNm}" width="50px;"/></td>
                              <td>\${item.emplNm}</td></tr>`
                 })
 

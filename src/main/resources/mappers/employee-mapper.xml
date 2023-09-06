@@ -27,16 +27,6 @@
         <result property="authEmpId" column="AUTH_EMP_ID"/>
     </resultMap>
 
-    <!--    <resultMap type="notificationVO" id="notificationMap">-->
-    <!--        <result property="answer" column="DUTY_REQUEST"/>-->
-    <!--        <result property="teamNotice" column="ANSWER"/>-->
-    <!--        <result property="companyNotice" column="TEAM_NOTICE"/>-->
-    <!--        <result property="schedule" column="COMPANY_NOTICE"/>-->
-    <!--        <result property="newChattingRoom" column="SCHEDULE"/>-->
-    <!--        <result property="emailReception" column="NEW_CHATTING_ROOM"/>-->
-    <!--        <result property="electronSanctionReception" column="EMAIL_RECEPTION"/>-->
-    <!--        <result property="electronSanction" column="ELECTRON_SANCTION_RECEPTION"/>-->
-    <!--    </resultMap>-->
 
     <select id="getNoticeAt" parameterType="String" resultType="notificationVO">
         SELECT MAX(CASE WHEN COMMON_CODE_NTCN_KIND = 'NTCN010' THEN COMMON_CODE_NTCN_AT END) AS DUTY_REQUEST,
@@ -245,9 +235,14 @@
 
     <!--프로필 사진 추가-->
     <select id="loadBirthday" resultType="employeeVO">
-        SELECT *
-        FROM EMPL
+        SELECT E.EMPL_NM,
+               U.UPLOAD_FILE_ORGINL_NM AS PROFL_PHOTO_FILE_STRE_NM
+        FROM EMPL E,
+             PROFL P,
+             UPLOAD_FILE U
         WHERE TO_CHAR(EMPL_BRTHDY, 'MM') = TO_CHAR(SYSDATE, 'MM')
+          AND E.EMPL_ID = P.PROFL_EMPL_ID
+          AND P.PROFL_ETPR_CODE = U.UPLOAD_FILE_ETPR_CODE
     </select>
 
     <select id="findEmp" resultType="employeeVO">

@@ -36,7 +36,7 @@ public class MainController {
     }
 
     @PostMapping("/uploadFile")
-    public void uploadFile(MultipartFile defaultFile) {
+    public String uploadFile(MultipartFile defaultFile) {
         try {
             String path = uploadPath + "/test";
             File uploadDir = new File(path);
@@ -53,8 +53,10 @@ public class MainController {
             defaultFile.transferTo(saveFile);
 
             log.info("사진 저장 성공");
+            return "redirect:/main/home";
         } catch (Exception e) {
             log.info("사진 저장 실패");
+            return null;
         }
     }
 
