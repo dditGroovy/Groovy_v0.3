@@ -33,4 +33,6 @@ public class EmployeeVO {
     private String signPhotoFileStreNm;  // 서명 (SIGN 테이블)
     private List<EmployeeAuthVO> employeeAuthVOList;
     private NotificationVO notificationVO;
+    private String deptNm;  // 부서명
+    private String clsfNm;  // 직급명
 }
