@@ -171,12 +171,11 @@
             <version>1.16</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
-        <!-- ojdbc6 : oracle java database connectivity 드라이버 -->
+        <!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
         <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.4</version>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>19.3.0.0</version>
         </dependency>
         <!-- 타일즈 시작 -->
         <!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-extras -->
