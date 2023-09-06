@@ -23,7 +23,7 @@
             text-align: center;
         }
     </style>
-    <h1>수정수정 - 7</h1>
+    <h1>수정수정 - 8</h1>
     <h1>${CustomUser.employeeVO.emplId}</h1>
     <h1>${commuteVO}</h1>
     <div>
@@ -267,7 +267,7 @@
                 let time = data[1]; // 시간 부분
                 dataByDay[dy] = time;
             }
-            let daysOfWeek = ["월", "화", "수", "목", "금"];
+            let daysOfWeek = ["MON", "TUE", "WED", "THU", "FRI"];
             // 요일별로 테이블에 추가
             for (let i = 0; i < daysOfWeek.length; i++) {
                 let day = daysOfWeek[i];
