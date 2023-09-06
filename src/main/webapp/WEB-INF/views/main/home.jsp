@@ -252,7 +252,7 @@
             });
         }
 
-
+        let birthday;
         // 이번달 생일
         $.ajax({
             url: "/employee/loadBirthday",
@@ -261,8 +261,11 @@
                 code = `<table>`;
                 // <tr><th>사원번호</th><th>사원이름</th></tr>
                 $.each(data, function (index, item) {
+                    const birthday = item.emplBrthdy.split("-")[2];
+                    console.log(birthday)
                     code += `<tr><td><img src="/uploads/profile/\${item.proflPhotoFileStreNm}" width="50px;"/></td>
-                             <td>\${item.emplNm}</td></tr>`
+                             <td>\${item.emplNm}</td></tr>
+                             <td>\${birthday}일</td></tr>`
                 })
 
                 code += `</table>`

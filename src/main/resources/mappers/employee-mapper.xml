@@ -236,7 +236,8 @@
     <!--프로필 사진 추가-->
     <select id="loadBirthday" resultType="employeeVO">
         SELECT E.EMPL_NM,
-               U.UPLOAD_FILE_ORGINL_NM AS PROFL_PHOTO_FILE_STRE_NM
+               E.EMPL_BRTHDY,
+               U.UPLOAD_FILE_STRE_NM AS PROFL_PHOTO_FILE_STRE_NM
         FROM EMPL E,
              PROFL P,
              UPLOAD_FILE U
